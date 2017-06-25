@@ -1,38 +1,66 @@
-obj_sky/uip-split.o: ../../../core/net/ip/uip-split.c \
- ../../../core/./net/ip/uip-split.h ../../../core/./net/ip/uip.h \
- ../../../core/./net/ip/uipopt.h ../../../platform/sky/./contiki-conf.h \
- ../../../platform/sky/./platform-conf.h \
- ../../../cpu/msp430/./msp430def.h project-conf.h \
- ../../../core/./net/ip/tcpip.h ../../../core/./contiki.h \
- ../../../core/./contiki-version.h ../../../core/./contiki-default-conf.h \
- ../../../core/./sys/process.h ../../../core/./sys/pt.h \
- ../../../core/./sys/lc.h ../../../core/./sys/lc-switch.h \
- ../../../core/./sys/cc.h ../../../core/./sys/autostart.h \
- ../../../core/./sys/process.h ../../../core/./sys/timer.h \
- ../../../core/./sys/clock.h ../../../core/./sys/ctimer.h \
- ../../../core/./sys/etimer.h ../../../core/./sys/timer.h \
- ../../../core/./sys/etimer.h ../../../core/./sys/rtimer.h \
- ../../../cpu/msp430/./rtimer-arch.h ../../../core/./sys/rtimer.h \
- ../../../core/./sys/pt.h ../../../core/./sys/procinit.h \
- ../../../core/./sys/loader.h ../../../core/./sys/clock.h \
- ../../../core/./sys/energest.h ../../../core/./net/ipv4/uip-fw.h \
- ../../../core/./net/ip/uip_arch.h
-../../../core/net/ip/uip-split.c :
- ../../../core/./net/ip/uip-split.h ../../../core/./net/ip/uip.h :
- ../../../core/./net/ip/uipopt.h ../../../platform/sky/./contiki-conf.h :
- ../../../platform/sky/./platform-conf.h :
- ../../../cpu/msp430/./msp430def.h project-conf.h :
- ../../../core/./net/ip/tcpip.h ../../../core/./contiki.h :
- ../../../core/./contiki-version.h ../../../core/./contiki-default-conf.h :
- ../../../core/./sys/process.h ../../../core/./sys/pt.h :
- ../../../core/./sys/lc.h ../../../core/./sys/lc-switch.h :
- ../../../core/./sys/cc.h ../../../core/./sys/autostart.h :
- ../../../core/./sys/process.h ../../../core/./sys/timer.h :
- ../../../core/./sys/clock.h ../../../core/./sys/ctimer.h :
- ../../../core/./sys/etimer.h ../../../core/./sys/timer.h :
- ../../../core/./sys/etimer.h ../../../core/./sys/rtimer.h :
- ../../../cpu/msp430/./rtimer-arch.h ../../../core/./sys/rtimer.h :
- ../../../core/./sys/pt.h ../../../core/./sys/procinit.h :
- ../../../core/./sys/loader.h ../../../core/./sys/clock.h :
- ../../../core/./sys/energest.h ../../../core/./net/ipv4/uip-fw.h :
- ../../../core/./net/ip/uip_arch.h :
+obj_sky/uip-split.o: /home/user/contiki/core/net/ip/uip-split.c \
+ /home/user/contiki/core/./net/ip/uip-split.h \
+ /home/user/contiki/core/./net/ip/uip.h \
+ /home/user/contiki/core/./net/ip/uipopt.h \
+ /home/user/contiki/platform/sky/./contiki-conf.h \
+ /home/user/contiki/platform/sky/./platform-conf.h \
+ /home/user/contiki/cpu/msp430/./msp430def.h project-conf.h \
+ /home/user/contiki/core/./net/ip/tcpip.h \
+ /home/user/contiki/core/./contiki.h \
+ /home/user/contiki/core/./contiki-version.h \
+ /home/user/contiki/core/./contiki-default-conf.h \
+ /home/user/contiki/core/./sys/process.h \
+ /home/user/contiki/core/./sys/pt.h /home/user/contiki/core/./sys/lc.h \
+ /home/user/contiki/core/./sys/lc-switch.h \
+ /home/user/contiki/core/./sys/cc.h \
+ /home/user/contiki/core/./sys/autostart.h \
+ /home/user/contiki/core/./sys/process.h \
+ /home/user/contiki/core/./sys/timer.h \
+ /home/user/contiki/core/./sys/clock.h \
+ /home/user/contiki/core/./sys/ctimer.h \
+ /home/user/contiki/core/./sys/etimer.h \
+ /home/user/contiki/core/./sys/timer.h \
+ /home/user/contiki/core/./sys/etimer.h \
+ /home/user/contiki/core/./sys/rtimer.h \
+ /home/user/contiki/cpu/msp430/./rtimer-arch.h \
+ /home/user/contiki/core/./sys/rtimer.h \
+ /home/user/contiki/core/./sys/pt.h \
+ /home/user/contiki/core/./sys/procinit.h \
+ /home/user/contiki/core/./sys/loader.h \
+ /home/user/contiki/core/./sys/clock.h \
+ /home/user/contiki/core/./sys/energest.h \
+ /home/user/contiki/core/./net/ipv4/uip-fw.h \
+ /home/user/contiki/core/./net/ip/uip_arch.h
+/home/user/contiki/core/net/ip/uip-split.c :
+ /home/user/contiki/core/./net/ip/uip-split.h :
+ /home/user/contiki/core/./net/ip/uip.h :
+ /home/user/contiki/core/./net/ip/uipopt.h :
+ /home/user/contiki/platform/sky/./contiki-conf.h :
+ /home/user/contiki/platform/sky/./platform-conf.h :
+ /home/user/contiki/cpu/msp430/./msp430def.h project-conf.h :
+ /home/user/contiki/core/./net/ip/tcpip.h :
+ /home/user/contiki/core/./contiki.h :
+ /home/user/contiki/core/./contiki-version.h :
+ /home/user/contiki/core/./contiki-default-conf.h :
+ /home/user/contiki/core/./sys/process.h :
+ /home/user/contiki/core/./sys/pt.h /home/user/contiki/core/./sys/lc.h :
+ /home/user/contiki/core/./sys/lc-switch.h :
+ /home/user/contiki/core/./sys/cc.h :
+ /home/user/contiki/core/./sys/autostart.h :
+ /home/user/contiki/core/./sys/process.h :
+ /home/user/contiki/core/./sys/timer.h :
+ /home/user/contiki/core/./sys/clock.h :
+ /home/user/contiki/core/./sys/ctimer.h :
+ /home/user/contiki/core/./sys/etimer.h :
+ /home/user/contiki/core/./sys/timer.h :
+ /home/user/contiki/core/./sys/etimer.h :
+ /home/user/contiki/core/./sys/rtimer.h :
+ /home/user/contiki/cpu/msp430/./rtimer-arch.h :
+ /home/user/contiki/core/./sys/rtimer.h :
+ /home/user/contiki/core/./sys/pt.h :
+ /home/user/contiki/core/./sys/procinit.h :
+ /home/user/contiki/core/./sys/loader.h :
+ /home/user/contiki/core/./sys/clock.h :
+ /home/user/contiki/core/./sys/energest.h :
+ /home/user/contiki/core/./net/ipv4/uip-fw.h :
+ /home/user/contiki/core/./net/ip/uip_arch.h :

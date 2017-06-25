@@ -1,16 +1,22 @@
-obj_sky/etimer.o: ../../../core/sys/etimer.c \
- ../../../platform/sky/./contiki-conf.h \
- ../../../platform/sky/./platform-conf.h \
- ../../../cpu/msp430/./msp430def.h ../../../core/./sys/etimer.h \
- ../../../core/./sys/timer.h ../../../core/./sys/clock.h \
- ../../../core/./sys/process.h ../../../core/./sys/pt.h \
- ../../../core/./sys/lc.h ../../../core/./sys/lc-switch.h \
- ../../../core/./sys/cc.h
-../../../core/sys/etimer.c :
- ../../../platform/sky/./contiki-conf.h :
- ../../../platform/sky/./platform-conf.h :
- ../../../cpu/msp430/./msp430def.h ../../../core/./sys/etimer.h :
- ../../../core/./sys/timer.h ../../../core/./sys/clock.h :
- ../../../core/./sys/process.h ../../../core/./sys/pt.h :
- ../../../core/./sys/lc.h ../../../core/./sys/lc-switch.h :
- ../../../core/./sys/cc.h :
+obj_sky/etimer.o: /home/user/contiki/core/sys/etimer.c \
+ /home/user/contiki/platform/sky/./contiki-conf.h \
+ /home/user/contiki/platform/sky/./platform-conf.h \
+ /home/user/contiki/cpu/msp430/./msp430def.h \
+ /home/user/contiki/core/./sys/etimer.h \
+ /home/user/contiki/core/./sys/timer.h \
+ /home/user/contiki/core/./sys/clock.h \
+ /home/user/contiki/core/./sys/process.h \
+ /home/user/contiki/core/./sys/pt.h /home/user/contiki/core/./sys/lc.h \
+ /home/user/contiki/core/./sys/lc-switch.h \
+ /home/user/contiki/core/./sys/cc.h
+/home/user/contiki/core/sys/etimer.c :
+ /home/user/contiki/platform/sky/./contiki-conf.h :
+ /home/user/contiki/platform/sky/./platform-conf.h :
+ /home/user/contiki/cpu/msp430/./msp430def.h :
+ /home/user/contiki/core/./sys/etimer.h :
+ /home/user/contiki/core/./sys/timer.h :
+ /home/user/contiki/core/./sys/clock.h :
+ /home/user/contiki/core/./sys/process.h :
+ /home/user/contiki/core/./sys/pt.h /home/user/contiki/core/./sys/lc.h :
+ /home/user/contiki/core/./sys/lc-switch.h :
+ /home/user/contiki/core/./sys/cc.h :

@@ -1,12 +1,14 @@
-obj_sky/energest.o: ../../../core/sys/energest.c \
- ../../../core/./sys/energest.h ../../../core/./sys/rtimer.h \
- ../../../platform/sky/./contiki-conf.h \
- ../../../platform/sky/./platform-conf.h \
- ../../../cpu/msp430/./msp430def.h project-conf.h \
- ../../../cpu/msp430/./rtimer-arch.h
-../../../core/sys/energest.c :
- ../../../core/./sys/energest.h ../../../core/./sys/rtimer.h :
- ../../../platform/sky/./contiki-conf.h :
- ../../../platform/sky/./platform-conf.h :
- ../../../cpu/msp430/./msp430def.h project-conf.h :
- ../../../cpu/msp430/./rtimer-arch.h :
+obj_sky/energest.o: /home/user/contiki/core/sys/energest.c \
+ /home/user/contiki/core/./sys/energest.h \
+ /home/user/contiki/core/./sys/rtimer.h \
+ /home/user/contiki/platform/sky/./contiki-conf.h \
+ /home/user/contiki/platform/sky/./platform-conf.h \
+ /home/user/contiki/cpu/msp430/./msp430def.h project-conf.h \
+ /home/user/contiki/cpu/msp430/./rtimer-arch.h
+/home/user/contiki/core/sys/energest.c :
+ /home/user/contiki/core/./sys/energest.h :
+ /home/user/contiki/core/./sys/rtimer.h :
+ /home/user/contiki/platform/sky/./contiki-conf.h :
+ /home/user/contiki/platform/sky/./platform-conf.h :
+ /home/user/contiki/cpu/msp430/./msp430def.h project-conf.h :
+ /home/user/contiki/cpu/msp430/./rtimer-arch.h :

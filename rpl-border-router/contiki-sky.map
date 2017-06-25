@@ -2068,7 +2068,7 @@ LOAD /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a
                 0x0000f3c0                _unexpected_
  *(.near.text .near.text.*)
 
-.rodata         0x0000f3c4      0x54f
+.rodata         0x0000f3c4      0x55f
                 0x0000f3c4                . = ALIGN (0x2)
  *(.rodata .rodata.* .gnu.linkonce.r.*)
  .rodata        0x0000f3c4       0xc8 border-router.co
@@ -2081,48 +2081,49 @@ LOAD /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a
                 0x0000f59c                http_header_404
                 0x0000f5f9                http_header_200
                 0x0000f64f                http_content_type_html
- .rodata        0x0000f66b      0x120 obj_sky/contiki-sky-main.o
- *fill*         0x0000f78b        0x1 00
- .rodata        0x0000f78c       0x10 contiki-sky.a(button-sensor.o)
-                0x0000f794                button_sensor
- .rodata        0x0000f79c        0x8 contiki-sky.a(sensors.o)
+ .rodata        0x0000f66b      0x12e obj_sky/contiki-sky-main.o
+ *fill*         0x0000f799        0x1 00
+ .rodata        0x0000f79a       0x10 contiki-sky.a(button-sensor.o)
+                0x0000f7a2                button_sensor
+ .rodata        0x0000f7aa        0x8 contiki-sky.a(sensors.o)
+ *fill*         0x0000f7b2        0x2 00
  .rodata.get_value
-                0x0000f7a4       0x1c contiki-sky.a(cc2420.o)
- .rodata        0x0000f7c0       0x3e contiki-sky.a(cc2420.o)
-                0x0000f7c0                cc2420_aes_128_driver
-                0x0000f7c4                cc2420_driver
- .rodata        0x0000f7fe       0x21 contiki-sky.a(slip.o)
- .rodata        0x0000f81f        0xf contiki-sky.a(ctimer.o)
- .rodata        0x0000f82e        0xc contiki-sky.a(etimer.o)
- .rodata        0x0000f83a       0x24 contiki-sky.a(sicslowpan.o)
-                0x0000f846                sicslowpan_driver
-                0x0000f84c                llprefix
-                0x0000f84e                unc_mxconf
-                0x0000f852                unc_ctxconf
-                0x0000f856                unc_llconf
- *fill*         0x0000f85e        0x2 00
+                0x0000f7b4       0x1c contiki-sky.a(cc2420.o)
+ .rodata        0x0000f7d0       0x3e contiki-sky.a(cc2420.o)
+                0x0000f7d0                cc2420_aes_128_driver
+                0x0000f7d4                cc2420_driver
+ .rodata        0x0000f80e       0x21 contiki-sky.a(slip.o)
+ .rodata        0x0000f82f        0xf contiki-sky.a(ctimer.o)
+ .rodata        0x0000f83e        0xc contiki-sky.a(etimer.o)
+ .rodata        0x0000f84a       0x24 contiki-sky.a(sicslowpan.o)
+                0x0000f856                sicslowpan_driver
+                0x0000f85c                llprefix
+                0x0000f85e                unc_mxconf
+                0x0000f862                unc_ctxconf
+                0x0000f866                unc_llconf
+ *fill*         0x0000f86e        0x2 00
  .rodata.uip_process
-                0x0000f860       0x20 contiki-sky.a(uip6.o)
- .rodata        0x0000f880        0xd contiki-sky.a(tcpip.o)
- .rodata        0x0000f88d       0x29 contiki-sky.a(uip-debug.o)
- .rodata        0x0000f8b6       0x14 contiki-sky.a(csma.o)
-                0x0000f8bc                csma_driver
- .rodata        0x0000f8ca        0x8 contiki-sky.a(framer-802154.o)
-                0x0000f8ca                framer_802154
- .rodata        0x0000f8d2        0x8 contiki-sky.a(linkaddr.o)
-                0x0000f8d2                linkaddr_null
- .rodata        0x0000f8da       0x1c contiki-sky.a(contikimac.o)
-                0x0000f8e6                contikimac_driver
- .rodata        0x0000f8f6       0x14 contiki-sky.a(nullsec.o)
-                0x0000f8fe                nullsec_driver
- .rodata        0x0000f90a        0x2 contiki-sky.a(frame802154.o)
+                0x0000f870       0x20 contiki-sky.a(uip6.o)
+ .rodata        0x0000f890        0xd contiki-sky.a(tcpip.o)
+ .rodata        0x0000f89d       0x29 contiki-sky.a(uip-debug.o)
+ .rodata        0x0000f8c6       0x14 contiki-sky.a(csma.o)
+                0x0000f8cc                csma_driver
+ .rodata        0x0000f8da        0x8 contiki-sky.a(framer-802154.o)
+                0x0000f8da                framer_802154
+ .rodata        0x0000f8e2        0x8 contiki-sky.a(linkaddr.o)
+                0x0000f8e2                linkaddr_null
+ .rodata        0x0000f8ea       0x1c contiki-sky.a(contikimac.o)
+                0x0000f8f6                contikimac_driver
+ .rodata        0x0000f906       0x14 contiki-sky.a(nullsec.o)
+                0x0000f90e                nullsec_driver
+ .rodata        0x0000f91a        0x2 contiki-sky.a(frame802154.o)
  .rodata.vuprintf
-                0x0000f90c        0x7 /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(vuprintf.o)
+                0x0000f91c        0x7 /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(vuprintf.o)
  *(.near.rodata .near.rodata.*)
-                0x0000f914                . = ALIGN (0x2)
-                0x0000f914                _etext = .
+                0x0000f924                . = ALIGN (0x2)
+                0x0000f924                _etext = .
 
-.data           0x00001100       0xfa load address 0x0000f914
+.data           0x00001100       0xfa load address 0x0000f924
                 0x00001100                . = ALIGN (0x2)
                 0x00001100                __data_start = .
  *(.data .data.* .gnu.linkonce.d.*)
@@ -2161,10 +2162,10 @@ LOAD /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a
  *(.near.data .near.data.*)
                 0x000011fa                . = ALIGN (0x2)
                 0x000011fa                _edata = .
-                0x0000f914                __data_load_start = LOADADDR (.data)
+                0x0000f924                __data_load_start = LOADADDR (.data)
                 0x000000fa                __data_size = SIZEOF (.data)
 
-.bss            0x000011fa     0x1c12 load address 0x0000fa0e
+.bss            0x000011fa     0x1c12 load address 0x0000fa1e
                 0x000011fa                __bss_start = .
  *(.bss .bss.*)
  .bss           0x000011fa      0x124 border-router.co
@@ -2285,7 +2286,7 @@ LOAD /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a
                 0x00002e0c                __bss_end = .
                 0x00001c12                __bss_size = SIZEOF (.bss)
 
-.noinit         0x00002e0c        0x2 load address 0x0000fa0e
+.noinit         0x00002e0c        0x2 load address 0x0000fa1e
                 0x00002e0c                . = ALIGN (0x2)
                 0x00002e0c                __noinit_start = .
  *(.noinit .noinit.*)
@@ -2489,9 +2490,9 @@ LOAD /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a
  .stab          0x00029ea4      0x648 contiki-sky.a(mac-sequence.o)
                                0x1770 (size before relaxing)
 
-.stabstr        0x00000000    0x1ccef
+.stabstr        0x00000000    0x1d2fe
  *(.stabstr)
- .stabstr       0x00000000    0x1ccef border-router.co
+ .stabstr       0x00000000    0x1d2fe border-router.co
 
 .stab.excl
  *(.stab.excl)
@@ -2809,6 +2810,6 @@ LOAD /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a
  .debug_ranges  0x0000008c        0x8 /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memmove.o)
  .debug_ranges  0x00000094        0x8 /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memset.o)
                 0x00003900                PROVIDE (__stack, (ORIGIN (ram) + 0x2800))
-                0x0000f914                __data_start_rom = _etext
-                0x0000fa0e                __data_end_rom = (_etext + SIZEOF (.data))
+                0x0000f924                __data_start_rom = _etext
+                0x0000fa1e                __data_end_rom = (_etext + SIZEOF (.data))
 OUTPUT(border-router.sky elf32-msp430)

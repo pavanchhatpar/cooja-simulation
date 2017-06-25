@@ -1,8 +1,12 @@
-obj_sky/random.o: ../../../core/lib/random.c ../../../core/./lib/random.h \
- ../../../core/./sys/clock.h ../../../platform/sky/./contiki-conf.h \
- ../../../platform/sky/./platform-conf.h \
- ../../../cpu/msp430/./msp430def.h project-conf.h
-../../../core/lib/random.c ../../../core/./lib/random.h :
- ../../../core/./sys/clock.h ../../../platform/sky/./contiki-conf.h :
- ../../../platform/sky/./platform-conf.h :
- ../../../cpu/msp430/./msp430def.h project-conf.h :
+obj_sky/random.o: /home/user/contiki/core/lib/random.c \
+ /home/user/contiki/core/./lib/random.h \
+ /home/user/contiki/core/./sys/clock.h \
+ /home/user/contiki/platform/sky/./contiki-conf.h \
+ /home/user/contiki/platform/sky/./platform-conf.h \
+ /home/user/contiki/cpu/msp430/./msp430def.h project-conf.h
+/home/user/contiki/core/lib/random.c :
+ /home/user/contiki/core/./lib/random.h :
+ /home/user/contiki/core/./sys/clock.h :
+ /home/user/contiki/platform/sky/./contiki-conf.h :
+ /home/user/contiki/platform/sky/./platform-conf.h :
+ /home/user/contiki/cpu/msp430/./msp430def.h project-conf.h :

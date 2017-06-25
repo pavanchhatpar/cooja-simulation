@@ -1,4 +1,6 @@
-obj_sky/symtab.o: ../../../core/loader/symtab.c \
- ../../../core/loader/symtab.h ../../../core/./loader/symbols.h
-../../../core/loader/symtab.c :
- ../../../core/loader/symtab.h ../../../core/./loader/symbols.h :
+obj_sky/symtab.o: /home/user/contiki/core/loader/symtab.c \
+ /home/user/contiki/core/loader/symtab.h \
+ /home/user/contiki/core/./loader/symbols.h
+/home/user/contiki/core/loader/symtab.c :
+ /home/user/contiki/core/loader/symtab.h :
+ /home/user/contiki/core/./loader/symbols.h :

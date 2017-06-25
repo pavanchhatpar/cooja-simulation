@@ -1,6 +1,6 @@
 all: udp-client udp-server
 APPS=servreg-hack
-CONTIKI=../../..
+CONTIKI=/home/user/contiki
 
 ifdef WITH_COMPOWER
 APPS+=powertrace

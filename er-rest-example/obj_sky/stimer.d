@@ -1,10 +1,12 @@
-obj_sky/stimer.o: ../../../core/sys/stimer.c \
- ../../../platform/sky/./contiki-conf.h \
- ../../../platform/sky/./platform-conf.h \
- ../../../cpu/msp430/./msp430def.h project-conf.h \
- ../../../core/./sys/clock.h ../../../core/./sys/stimer.h
-../../../core/sys/stimer.c :
- ../../../platform/sky/./contiki-conf.h :
- ../../../platform/sky/./platform-conf.h :
- ../../../cpu/msp430/./msp430def.h project-conf.h :
- ../../../core/./sys/clock.h ../../../core/./sys/stimer.h :
+obj_sky/stimer.o: /home/user/contiki/core/sys/stimer.c \
+ /home/user/contiki/platform/sky/./contiki-conf.h \
+ /home/user/contiki/platform/sky/./platform-conf.h \
+ /home/user/contiki/cpu/msp430/./msp430def.h project-conf.h \
+ /home/user/contiki/core/./sys/clock.h \
+ /home/user/contiki/core/./sys/stimer.h
+/home/user/contiki/core/sys/stimer.c :
+ /home/user/contiki/platform/sky/./contiki-conf.h :
+ /home/user/contiki/platform/sky/./platform-conf.h :
+ /home/user/contiki/cpu/msp430/./msp430def.h project-conf.h :
+ /home/user/contiki/core/./sys/clock.h :
+ /home/user/contiki/core/./sys/stimer.h :

@@ -1,2 +1,4 @@
-obj_sky/me.o: ../../../core/lib/me.c ../../../core/lib/me_tabs.h
-../../../core/lib/me.c ../../../core/lib/me_tabs.h :
+obj_sky/me.o: /home/user/contiki/core/lib/me.c \
+ /home/user/contiki/core/lib/me_tabs.h
+/home/user/contiki/core/lib/me.c :
+ /home/user/contiki/core/lib/me_tabs.h :

@@ -1,116 +1,204 @@
-obj_sky/queuebuf.o: ../../../core/net/queuebuf.c \
- ../../../core/./contiki-net.h ../../../core/./contiki.h \
- ../../../core/./contiki-version.h ../../../platform/sky/./contiki-conf.h \
- ../../../platform/sky/./platform-conf.h \
- ../../../cpu/msp430/./msp430def.h ../../../core/./contiki-default-conf.h \
- ../../../core/./sys/process.h ../../../core/./sys/pt.h \
- ../../../core/./sys/lc.h ../../../core/./sys/lc-switch.h \
- ../../../core/./sys/cc.h ../../../core/./sys/autostart.h \
- ../../../core/./sys/process.h ../../../core/./sys/timer.h \
- ../../../core/./sys/clock.h ../../../core/./sys/ctimer.h \
- ../../../core/./sys/etimer.h ../../../core/./sys/timer.h \
- ../../../core/./sys/etimer.h ../../../core/./sys/rtimer.h \
- ../../../cpu/msp430/./rtimer-arch.h ../../../core/./sys/rtimer.h \
- ../../../core/./sys/pt.h ../../../core/./sys/procinit.h \
- ../../../core/./sys/loader.h ../../../core/./sys/clock.h \
- ../../../core/./sys/energest.h ../../../core/./net/ip/tcpip.h \
- ../../../core/./contiki.h ../../../core/./net/ip/uip.h \
- ../../../core/./net/ip/uipopt.h ../../../core/./net/ip/tcpip.h \
- ../../../core/./net/ip/uip.h ../../../core/./net/ipv4/uip-fw.h \
- ../../../core/./net/ipv4/uip-fw-drv.h ../../../core/./net/ipv4/uip-fw.h \
- ../../../core/./net/ipv4/uip_arp.h ../../../core/./net/ip/uiplib.h \
- ../../../core/./net/ip/uip-udp-packet.h \
- ../../../core/./net/ip/simple-udp.h \
- ../../../core/./net/ip/uip-nameserver.h \
- ../../../core/./net/ipv6/uip-icmp6.h ../../../core/./net/ipv6/uip-ds6.h \
- ../../../core/./sys/stimer.h ../../../core/./net/ipv6/uip-nd6.h \
- ../../../core/./net/ipv6/uip-ds6-route.h ../../../core/./lib/list.h \
- ../../../core/./net/ipv6/uip-ds6-nbr.h ../../../core/./net/nbr-table.h \
- ../../../core/./net/linkaddr.h ../../../core/./net/netstack.h \
- ../../../core/./net/llsec/llsec.h ../../../core/./net/mac/mac.h \
- ../../../core/./dev/radio.h ../../../core/./net/mac/rdc.h \
- ../../../core/./net/mac/framer.h ../../../core/./net/ipv6/uip-ds6.h \
- ../../../core/./net/ip/resolv.h ../../../core/./net/ip/uip.h \
- ../../../core/./net/ip/psock.h ../../../core/./contiki-lib.h \
- ../../../core/./lib/list.h ../../../core/./lib/memb.h \
- ../../../core/./lib/mmem.h ../../../core/./lib/random.h \
- ../../../core/./net/ip/udp-socket.h ../../../core/./net/ip/tcp-socket.h \
- ../../../core/./net/rime/rime.h ../../../core/./net/rime/announcement.h \
- ../../../core/./net/rime/collect.h ../../../core/./net/rime/runicast.h \
- ../../../core/./net/rime/stunicast.h ../../../core/./sys/ctimer.h \
- ../../../core/./net/rime/unicast.h ../../../core/./net/rime/broadcast.h \
- ../../../core/./net/rime/abc.h ../../../core/./net/packetbuf.h \
- ../../../core/./net/llsec/llsec802154.h \
- ../../../core/./net/mac/frame802154.h ../../../core/./net/rime/channel.h \
- ../../../core/./net/rime/chameleon.h ../../../core/./net/queuebuf.h \
- ../../../core/./net/rime/neighbor-discovery.h \
- ../../../core/./net/rime/collect-neighbor.h \
- ../../../core/./net/rime/collect-link-estimate.h \
- ../../../core/./net/rime/packetqueue.h ../../../core/./lib/memb.h \
- ../../../core/./net/rime/ipolite.h ../../../core/./net/rime/mesh.h \
- ../../../core/./net/rime/multihop.h \
- ../../../core/./net/rime/route-discovery.h \
- ../../../core/./net/rime/netflood.h \
- ../../../core/./net/rime/polite-announcement.h \
- ../../../core/./net/rime/polite.h ../../../core/./net/rime/rimestats.h \
- ../../../core/./net/rime/rmh.h ../../../core/./net/rime/route.h \
- ../../../core/./net/rime/rucb.h ../../../core/./net/rime/timesynch.h \
- ../../../core/./net/rime/trickle.h ../../../core/./net/netstack.h
-../../../core/net/queuebuf.c :
- ../../../core/./contiki-net.h ../../../core/./contiki.h :
- ../../../core/./contiki-version.h ../../../platform/sky/./contiki-conf.h :
- ../../../platform/sky/./platform-conf.h :
- ../../../cpu/msp430/./msp430def.h ../../../core/./contiki-default-conf.h :
- ../../../core/./sys/process.h ../../../core/./sys/pt.h :
- ../../../core/./sys/lc.h ../../../core/./sys/lc-switch.h :
- ../../../core/./sys/cc.h ../../../core/./sys/autostart.h :
- ../../../core/./sys/process.h ../../../core/./sys/timer.h :
- ../../../core/./sys/clock.h ../../../core/./sys/ctimer.h :
- ../../../core/./sys/etimer.h ../../../core/./sys/timer.h :
- ../../../core/./sys/etimer.h ../../../core/./sys/rtimer.h :
- ../../../cpu/msp430/./rtimer-arch.h ../../../core/./sys/rtimer.h :
- ../../../core/./sys/pt.h ../../../core/./sys/procinit.h :
- ../../../core/./sys/loader.h ../../../core/./sys/clock.h :
- ../../../core/./sys/energest.h ../../../core/./net/ip/tcpip.h :
- ../../../core/./contiki.h ../../../core/./net/ip/uip.h :
- ../../../core/./net/ip/uipopt.h ../../../core/./net/ip/tcpip.h :
- ../../../core/./net/ip/uip.h ../../../core/./net/ipv4/uip-fw.h :
- ../../../core/./net/ipv4/uip-fw-drv.h ../../../core/./net/ipv4/uip-fw.h :
- ../../../core/./net/ipv4/uip_arp.h ../../../core/./net/ip/uiplib.h :
- ../../../core/./net/ip/uip-udp-packet.h :
- ../../../core/./net/ip/simple-udp.h :
- ../../../core/./net/ip/uip-nameserver.h :
- ../../../core/./net/ipv6/uip-icmp6.h ../../../core/./net/ipv6/uip-ds6.h :
- ../../../core/./sys/stimer.h ../../../core/./net/ipv6/uip-nd6.h :
- ../../../core/./net/ipv6/uip-ds6-route.h ../../../core/./lib/list.h :
- ../../../core/./net/ipv6/uip-ds6-nbr.h ../../../core/./net/nbr-table.h :
- ../../../core/./net/linkaddr.h ../../../core/./net/netstack.h :
- ../../../core/./net/llsec/llsec.h ../../../core/./net/mac/mac.h :
- ../../../core/./dev/radio.h ../../../core/./net/mac/rdc.h :
- ../../../core/./net/mac/framer.h ../../../core/./net/ipv6/uip-ds6.h :
- ../../../core/./net/ip/resolv.h ../../../core/./net/ip/uip.h :
- ../../../core/./net/ip/psock.h ../../../core/./contiki-lib.h :
- ../../../core/./lib/list.h ../../../core/./lib/memb.h :
- ../../../core/./lib/mmem.h ../../../core/./lib/random.h :
- ../../../core/./net/ip/udp-socket.h ../../../core/./net/ip/tcp-socket.h :
- ../../../core/./net/rime/rime.h ../../../core/./net/rime/announcement.h :
- ../../../core/./net/rime/collect.h ../../../core/./net/rime/runicast.h :
- ../../../core/./net/rime/stunicast.h ../../../core/./sys/ctimer.h :
- ../../../core/./net/rime/unicast.h ../../../core/./net/rime/broadcast.h :
- ../../../core/./net/rime/abc.h ../../../core/./net/packetbuf.h :
- ../../../core/./net/llsec/llsec802154.h :
- ../../../core/./net/mac/frame802154.h ../../../core/./net/rime/channel.h :
- ../../../core/./net/rime/chameleon.h ../../../core/./net/queuebuf.h :
- ../../../core/./net/rime/neighbor-discovery.h :
- ../../../core/./net/rime/collect-neighbor.h :
- ../../../core/./net/rime/collect-link-estimate.h :
- ../../../core/./net/rime/packetqueue.h ../../../core/./lib/memb.h :
- ../../../core/./net/rime/ipolite.h ../../../core/./net/rime/mesh.h :
- ../../../core/./net/rime/multihop.h :
- ../../../core/./net/rime/route-discovery.h :
- ../../../core/./net/rime/netflood.h :
- ../../../core/./net/rime/polite-announcement.h :
- ../../../core/./net/rime/polite.h ../../../core/./net/rime/rimestats.h :
- ../../../core/./net/rime/rmh.h ../../../core/./net/rime/route.h :
- ../../../core/./net/rime/rucb.h ../../../core/./net/rime/timesynch.h :
- ../../../core/./net/rime/trickle.h ../../../core/./net/netstack.h :
+obj_sky/queuebuf.o: /home/user/contiki/core/net/queuebuf.c \
+ /home/user/contiki/core/./contiki-net.h \
+ /home/user/contiki/core/./contiki.h \
+ /home/user/contiki/core/./contiki-version.h \
+ /home/user/contiki/platform/sky/./contiki-conf.h \
+ /home/user/contiki/platform/sky/./platform-conf.h \
+ /home/user/contiki/cpu/msp430/./msp430def.h \
+ /home/user/contiki/core/./contiki-default-conf.h \
+ /home/user/contiki/core/./sys/process.h \
+ /home/user/contiki/core/./sys/pt.h /home/user/contiki/core/./sys/lc.h \
+ /home/user/contiki/core/./sys/lc-switch.h \
+ /home/user/contiki/core/./sys/cc.h \
+ /home/user/contiki/core/./sys/autostart.h \
+ /home/user/contiki/core/./sys/process.h \
+ /home/user/contiki/core/./sys/timer.h \
+ /home/user/contiki/core/./sys/clock.h \
+ /home/user/contiki/core/./sys/ctimer.h \
+ /home/user/contiki/core/./sys/etimer.h \
+ /home/user/contiki/core/./sys/timer.h \
+ /home/user/contiki/core/./sys/etimer.h \
+ /home/user/contiki/core/./sys/rtimer.h \
+ /home/user/contiki/cpu/msp430/./rtimer-arch.h \
+ /home/user/contiki/core/./sys/rtimer.h \
+ /home/user/contiki/core/./sys/pt.h \
+ /home/user/contiki/core/./sys/procinit.h \
+ /home/user/contiki/core/./sys/loader.h \
+ /home/user/contiki/core/./sys/clock.h \
+ /home/user/contiki/core/./sys/energest.h \
+ /home/user/contiki/core/./net/ip/tcpip.h \
+ /home/user/contiki/core/./contiki.h \
+ /home/user/contiki/core/./net/ip/uip.h \
+ /home/user/contiki/core/./net/ip/uipopt.h \
+ /home/user/contiki/core/./net/ip/tcpip.h \
+ /home/user/contiki/core/./net/ip/uip.h \
+ /home/user/contiki/core/./net/ipv4/uip-fw.h \
+ /home/user/contiki/core/./net/ipv4/uip-fw-drv.h \
+ /home/user/contiki/core/./net/ipv4/uip-fw.h \
+ /home/user/contiki/core/./net/ipv4/uip_arp.h \
+ /home/user/contiki/core/./net/ip/uiplib.h \
+ /home/user/contiki/core/./net/ip/uip-udp-packet.h \
+ /home/user/contiki/core/./net/ip/simple-udp.h \
+ /home/user/contiki/core/./net/ip/uip-nameserver.h \
+ /home/user/contiki/core/./net/ipv6/uip-icmp6.h \
+ /home/user/contiki/core/./net/ipv6/uip-ds6.h \
+ /home/user/contiki/core/./sys/stimer.h \
+ /home/user/contiki/core/./net/ipv6/uip-nd6.h \
+ /home/user/contiki/core/./net/ipv6/uip-ds6-route.h \
+ /home/user/contiki/core/./lib/list.h \
+ /home/user/contiki/core/./net/ipv6/uip-ds6-nbr.h \
+ /home/user/contiki/core/./net/nbr-table.h \
+ /home/user/contiki/core/./net/linkaddr.h \
+ /home/user/contiki/core/./net/netstack.h \
+ /home/user/contiki/core/./net/llsec/llsec.h \
+ /home/user/contiki/core/./net/mac/mac.h \
+ /home/user/contiki/core/./dev/radio.h \
+ /home/user/contiki/core/./net/mac/rdc.h \
+ /home/user/contiki/core/./net/mac/framer.h \
+ /home/user/contiki/core/./net/ipv6/uip-ds6.h \
+ /home/user/contiki/core/./net/ip/resolv.h \
+ /home/user/contiki/core/./net/ip/uip.h \
+ /home/user/contiki/core/./net/ip/psock.h \
+ /home/user/contiki/core/./contiki-lib.h \
+ /home/user/contiki/core/./lib/list.h \
+ /home/user/contiki/core/./lib/memb.h \
+ /home/user/contiki/core/./lib/mmem.h \
+ /home/user/contiki/core/./lib/random.h \
+ /home/user/contiki/core/./net/ip/udp-socket.h \
+ /home/user/contiki/core/./net/ip/tcp-socket.h \
+ /home/user/contiki/core/./net/rime/rime.h \
+ /home/user/contiki/core/./net/rime/announcement.h \
+ /home/user/contiki/core/./net/rime/collect.h \
+ /home/user/contiki/core/./net/rime/runicast.h \
+ /home/user/contiki/core/./net/rime/stunicast.h \
+ /home/user/contiki/core/./sys/ctimer.h \
+ /home/user/contiki/core/./net/rime/unicast.h \
+ /home/user/contiki/core/./net/rime/broadcast.h \
+ /home/user/contiki/core/./net/rime/abc.h \
+ /home/user/contiki/core/./net/packetbuf.h \
+ /home/user/contiki/core/./net/llsec/llsec802154.h \
+ /home/user/contiki/core/./net/mac/frame802154.h \
+ /home/user/contiki/core/./net/rime/channel.h \
+ /home/user/contiki/core/./net/rime/chameleon.h \
+ /home/user/contiki/core/./net/queuebuf.h \
+ /home/user/contiki/core/./net/rime/neighbor-discovery.h \
+ /home/user/contiki/core/./net/rime/collect-neighbor.h \
+ /home/user/contiki/core/./net/rime/collect-link-estimate.h \
+ /home/user/contiki/core/./net/rime/packetqueue.h \
+ /home/user/contiki/core/./lib/memb.h \
+ /home/user/contiki/core/./net/rime/ipolite.h \
+ /home/user/contiki/core/./net/rime/mesh.h \
+ /home/user/contiki/core/./net/rime/multihop.h \
+ /home/user/contiki/core/./net/rime/route-discovery.h \
+ /home/user/contiki/core/./net/rime/netflood.h \
+ /home/user/contiki/core/./net/rime/polite-announcement.h \
+ /home/user/contiki/core/./net/rime/polite.h \
+ /home/user/contiki/core/./net/rime/rimestats.h \
+ /home/user/contiki/core/./net/rime/rmh.h \
+ /home/user/contiki/core/./net/rime/route.h \
+ /home/user/contiki/core/./net/rime/rucb.h \
+ /home/user/contiki/core/./net/rime/timesynch.h \
+ /home/user/contiki/core/./net/rime/trickle.h \
+ /home/user/contiki/core/./net/netstack.h
+/home/user/contiki/core/net/queuebuf.c :
+ /home/user/contiki/core/./contiki-net.h :
+ /home/user/contiki/core/./contiki.h :
+ /home/user/contiki/core/./contiki-version.h :
+ /home/user/contiki/platform/sky/./contiki-conf.h :
+ /home/user/contiki/platform/sky/./platform-conf.h :
+ /home/user/contiki/cpu/msp430/./msp430def.h :
+ /home/user/contiki/core/./contiki-default-conf.h :
+ /home/user/contiki/core/./sys/process.h :
+ /home/user/contiki/core/./sys/pt.h /home/user/contiki/core/./sys/lc.h :
+ /home/user/contiki/core/./sys/lc-switch.h :
+ /home/user/contiki/core/./sys/cc.h :
+ /home/user/contiki/core/./sys/autostart.h :
+ /home/user/contiki/core/./sys/process.h :
+ /home/user/contiki/core/./sys/timer.h :
+ /home/user/contiki/core/./sys/clock.h :
+ /home/user/contiki/core/./sys/ctimer.h :
+ /home/user/contiki/core/./sys/etimer.h :
+ /home/user/contiki/core/./sys/timer.h :
+ /home/user/contiki/core/./sys/etimer.h :
+ /home/user/contiki/core/./sys/rtimer.h :
+ /home/user/contiki/cpu/msp430/./rtimer-arch.h :
+ /home/user/contiki/core/./sys/rtimer.h :
+ /home/user/contiki/core/./sys/pt.h :
+ /home/user/contiki/core/./sys/procinit.h :
+ /home/user/contiki/core/./sys/loader.h :
+ /home/user/contiki/core/./sys/clock.h :
+ /home/user/contiki/core/./sys/energest.h :
+ /home/user/contiki/core/./net/ip/tcpip.h :
+ /home/user/contiki/core/./contiki.h :
+ /home/user/contiki/core/./net/ip/uip.h :
+ /home/user/contiki/core/./net/ip/uipopt.h :
+ /home/user/contiki/core/./net/ip/tcpip.h :
+ /home/user/contiki/core/./net/ip/uip.h :
+ /home/user/contiki/core/./net/ipv4/uip-fw.h :
+ /home/user/contiki/core/./net/ipv4/uip-fw-drv.h :
+ /home/user/contiki/core/./net/ipv4/uip-fw.h :
+ /home/user/contiki/core/./net/ipv4/uip_arp.h :
+ /home/user/contiki/core/./net/ip/uiplib.h :
+ /home/user/contiki/core/./net/ip/uip-udp-packet.h :
+ /home/user/contiki/core/./net/ip/simple-udp.h :
+ /home/user/contiki/core/./net/ip/uip-nameserver.h :
+ /home/user/contiki/core/./net/ipv6/uip-icmp6.h :
+ /home/user/contiki/core/./net/ipv6/uip-ds6.h :
+ /home/user/contiki/core/./sys/stimer.h :
+ /home/user/contiki/core/./net/ipv6/uip-nd6.h :
+ /home/user/contiki/core/./net/ipv6/uip-ds6-route.h :
+ /home/user/contiki/core/./lib/list.h :
+ /home/user/contiki/core/./net/ipv6/uip-ds6-nbr.h :
+ /home/user/contiki/core/./net/nbr-table.h :
+ /home/user/contiki/core/./net/linkaddr.h :
+ /home/user/contiki/core/./net/netstack.h :
+ /home/user/contiki/core/./net/llsec/llsec.h :
+ /home/user/contiki/core/./net/mac/mac.h :
+ /home/user/contiki/core/./dev/radio.h :
+ /home/user/contiki/core/./net/mac/rdc.h :
+ /home/user/contiki/core/./net/mac/framer.h :
+ /home/user/contiki/core/./net/ipv6/uip-ds6.h :
+ /home/user/contiki/core/./net/ip/resolv.h :
+ /home/user/contiki/core/./net/ip/uip.h :
+ /home/user/contiki/core/./net/ip/psock.h :
+ /home/user/contiki/core/./contiki-lib.h :
+ /home/user/contiki/core/./lib/list.h :
+ /home/user/contiki/core/./lib/memb.h :
+ /home/user/contiki/core/./lib/mmem.h :
+ /home/user/contiki/core/./lib/random.h :
+ /home/user/contiki/core/./net/ip/udp-socket.h :
+ /home/user/contiki/core/./net/ip/tcp-socket.h :
+ /home/user/contiki/core/./net/rime/rime.h :
+ /home/user/contiki/core/./net/rime/announcement.h :
+ /home/user/contiki/core/./net/rime/collect.h :
+ /home/user/contiki/core/./net/rime/runicast.h :
+ /home/user/contiki/core/./net/rime/stunicast.h :
+ /home/user/contiki/core/./sys/ctimer.h :
+ /home/user/contiki/core/./net/rime/unicast.h :
+ /home/user/contiki/core/./net/rime/broadcast.h :
+ /home/user/contiki/core/./net/rime/abc.h :
+ /home/user/contiki/core/./net/packetbuf.h :
+ /home/user/contiki/core/./net/llsec/llsec802154.h :
+ /home/user/contiki/core/./net/mac/frame802154.h :
+ /home/user/contiki/core/./net/rime/channel.h :
+ /home/user/contiki/core/./net/rime/chameleon.h :
+ /home/user/contiki/core/./net/queuebuf.h :
+ /home/user/contiki/core/./net/rime/neighbor-discovery.h :
+ /home/user/contiki/core/./net/rime/collect-neighbor.h :
+ /home/user/contiki/core/./net/rime/collect-link-estimate.h :
+ /home/user/contiki/core/./net/rime/packetqueue.h :
+ /home/user/contiki/core/./lib/memb.h :
+ /home/user/contiki/core/./net/rime/ipolite.h :
+ /home/user/contiki/core/./net/rime/mesh.h :
+ /home/user/contiki/core/./net/rime/multihop.h :
+ /home/user/contiki/core/./net/rime/route-discovery.h :
+ /home/user/contiki/core/./net/rime/netflood.h :
+ /home/user/contiki/core/./net/rime/polite-announcement.h :
+ /home/user/contiki/core/./net/rime/polite.h :
+ /home/user/contiki/core/./net/rime/rimestats.h :
+ /home/user/contiki/core/./net/rime/rmh.h :
+ /home/user/contiki/core/./net/rime/route.h :
+ /home/user/contiki/core/./net/rime/rucb.h :
+ /home/user/contiki/core/./net/rime/timesynch.h :
+ /home/user/contiki/core/./net/rime/trickle.h :
+ /home/user/contiki/core/./net/netstack.h :

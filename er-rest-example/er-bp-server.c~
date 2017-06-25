@@ -59,7 +59,7 @@
 #define PRINTLLADDR(addr)
 #endif
 
-#define UDP_TEMP_PORT 8765
+#define UDP_BP_PORT 9000
 #define UDP_RFID_PORT 5678
 #include "net/ip/uip.h"
 #include "net/ipv6/uip-ds6.h"
@@ -110,12 +110,12 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
     REST.set_response_payload(response, (uint8_t *)buffer, strlen((char *)buffer));
   } else if(accept == REST.type.APPLICATION_XML) {
     REST.set_header_content_type(response, REST.type.APPLICATION_XML);
-    snprintf((char *)buffer, REST_MAX_CHUNK_SIZE, "<systolic>120</systolic><diastolic>80</diastolic><rfid>%s</rfid>", rfid);
+    snprintf((char *)buffer, REST_MAX_CHUNK_SIZE, "<sys>120</sys><dias>80</dias><rfid>%s</rfid>", rfid);
 
     REST.set_response_payload(response, buffer, strlen((char *)buffer));
   } else if(accept == REST.type.APPLICATION_JSON) {
     REST.set_header_content_type(response, REST.type.APPLICATION_JSON);
-    snprintf((char *)buffer, REST_MAX_CHUNK_SIZE, "{'sytolic': 120, 'diastolic': 80, 'rfid': '%s'}", rfid);
+    snprintf((char *)buffer, REST_MAX_CHUNK_SIZE, "{'sys': 120, 'dias': 80, 'rfid': '%s'}", rfid);
 
     REST.set_response_payload(response, buffer, strlen((char *)buffer));
   } else {

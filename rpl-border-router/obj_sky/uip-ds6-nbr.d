@@ -1,56 +1,96 @@
-obj_sky/uip-ds6-nbr.o: ../../../core/net/ipv6/uip-ds6-nbr.c \
- ../../../core/./lib/list.h ../../../core/./net/linkaddr.h \
- ../../../platform/sky/./contiki-conf.h \
- ../../../platform/sky/./platform-conf.h \
- ../../../cpu/msp430/./msp430def.h project-conf.h \
- ../../../core/./net/packetbuf.h ../../../core/./net/llsec/llsec802154.h \
- ../../../core/./net/mac/frame802154.h ../../../core/./net/ip/uip.h \
- ../../../core/./net/ip/uipopt.h ../../../core/./net/ip/tcpip.h \
- ../../../core/./contiki.h ../../../core/./contiki-version.h \
- ../../../core/./contiki-default-conf.h ../../../core/./sys/process.h \
- ../../../core/./sys/pt.h ../../../core/./sys/lc.h \
- ../../../core/./sys/lc-switch.h ../../../core/./sys/cc.h \
- ../../../core/./sys/autostart.h ../../../core/./sys/process.h \
- ../../../core/./sys/timer.h ../../../core/./sys/clock.h \
- ../../../core/./sys/ctimer.h ../../../core/./sys/etimer.h \
- ../../../core/./sys/timer.h ../../../core/./sys/etimer.h \
- ../../../core/./sys/rtimer.h ../../../cpu/msp430/./rtimer-arch.h \
- ../../../core/./sys/rtimer.h ../../../core/./sys/pt.h \
- ../../../core/./sys/procinit.h ../../../core/./sys/loader.h \
- ../../../core/./sys/clock.h ../../../core/./sys/energest.h \
- ../../../core/./net/ipv6/uip-ds6-nbr.h ../../../core/./net/nbr-table.h \
- ../../../core/./net/netstack.h ../../../core/./net/llsec/llsec.h \
- ../../../core/./net/mac/mac.h ../../../core/./dev/radio.h \
- ../../../core/./net/mac/rdc.h ../../../core/./net/mac/framer.h \
- ../../../core/./sys/stimer.h ../../../core/./net/ipv6/uip-ds6.h \
- ../../../core/./net/ipv6/uip-nd6.h \
- ../../../core/./net/ipv6/uip-ds6-route.h \
- ../../../core/./net/ip/uip-debug.h
-../../../core/net/ipv6/uip-ds6-nbr.c :
- ../../../core/./lib/list.h ../../../core/./net/linkaddr.h :
- ../../../platform/sky/./contiki-conf.h :
- ../../../platform/sky/./platform-conf.h :
- ../../../cpu/msp430/./msp430def.h project-conf.h :
- ../../../core/./net/packetbuf.h ../../../core/./net/llsec/llsec802154.h :
- ../../../core/./net/mac/frame802154.h ../../../core/./net/ip/uip.h :
- ../../../core/./net/ip/uipopt.h ../../../core/./net/ip/tcpip.h :
- ../../../core/./contiki.h ../../../core/./contiki-version.h :
- ../../../core/./contiki-default-conf.h ../../../core/./sys/process.h :
- ../../../core/./sys/pt.h ../../../core/./sys/lc.h :
- ../../../core/./sys/lc-switch.h ../../../core/./sys/cc.h :
- ../../../core/./sys/autostart.h ../../../core/./sys/process.h :
- ../../../core/./sys/timer.h ../../../core/./sys/clock.h :
- ../../../core/./sys/ctimer.h ../../../core/./sys/etimer.h :
- ../../../core/./sys/timer.h ../../../core/./sys/etimer.h :
- ../../../core/./sys/rtimer.h ../../../cpu/msp430/./rtimer-arch.h :
- ../../../core/./sys/rtimer.h ../../../core/./sys/pt.h :
- ../../../core/./sys/procinit.h ../../../core/./sys/loader.h :
- ../../../core/./sys/clock.h ../../../core/./sys/energest.h :
- ../../../core/./net/ipv6/uip-ds6-nbr.h ../../../core/./net/nbr-table.h :
- ../../../core/./net/netstack.h ../../../core/./net/llsec/llsec.h :
- ../../../core/./net/mac/mac.h ../../../core/./dev/radio.h :
- ../../../core/./net/mac/rdc.h ../../../core/./net/mac/framer.h :
- ../../../core/./sys/stimer.h ../../../core/./net/ipv6/uip-ds6.h :
- ../../../core/./net/ipv6/uip-nd6.h :
- ../../../core/./net/ipv6/uip-ds6-route.h :
- ../../../core/./net/ip/uip-debug.h :
+obj_sky/uip-ds6-nbr.o: /home/user/contiki/core/net/ipv6/uip-ds6-nbr.c \
+ /home/user/contiki/core/./lib/list.h \
+ /home/user/contiki/core/./net/linkaddr.h \
+ /home/user/contiki/platform/sky/./contiki-conf.h \
+ /home/user/contiki/platform/sky/./platform-conf.h \
+ /home/user/contiki/cpu/msp430/./msp430def.h project-conf.h \
+ /home/user/contiki/core/./net/packetbuf.h \
+ /home/user/contiki/core/./net/llsec/llsec802154.h \
+ /home/user/contiki/core/./net/mac/frame802154.h \
+ /home/user/contiki/core/./net/ip/uip.h \
+ /home/user/contiki/core/./net/ip/uipopt.h \
+ /home/user/contiki/core/./net/ip/tcpip.h \
+ /home/user/contiki/core/./contiki.h \
+ /home/user/contiki/core/./contiki-version.h \
+ /home/user/contiki/core/./contiki-default-conf.h \
+ /home/user/contiki/core/./sys/process.h \
+ /home/user/contiki/core/./sys/pt.h /home/user/contiki/core/./sys/lc.h \
+ /home/user/contiki/core/./sys/lc-switch.h \
+ /home/user/contiki/core/./sys/cc.h \
+ /home/user/contiki/core/./sys/autostart.h \
+ /home/user/contiki/core/./sys/process.h \
+ /home/user/contiki/core/./sys/timer.h \
+ /home/user/contiki/core/./sys/clock.h \
+ /home/user/contiki/core/./sys/ctimer.h \
+ /home/user/contiki/core/./sys/etimer.h \
+ /home/user/contiki/core/./sys/timer.h \
+ /home/user/contiki/core/./sys/etimer.h \
+ /home/user/contiki/core/./sys/rtimer.h \
+ /home/user/contiki/cpu/msp430/./rtimer-arch.h \
+ /home/user/contiki/core/./sys/rtimer.h \
+ /home/user/contiki/core/./sys/pt.h \
+ /home/user/contiki/core/./sys/procinit.h \
+ /home/user/contiki/core/./sys/loader.h \
+ /home/user/contiki/core/./sys/clock.h \
+ /home/user/contiki/core/./sys/energest.h \
+ /home/user/contiki/core/./net/ipv6/uip-ds6-nbr.h \
+ /home/user/contiki/core/./net/nbr-table.h \
+ /home/user/contiki/core/./net/netstack.h \
+ /home/user/contiki/core/./net/llsec/llsec.h \
+ /home/user/contiki/core/./net/mac/mac.h \
+ /home/user/contiki/core/./dev/radio.h \
+ /home/user/contiki/core/./net/mac/rdc.h \
+ /home/user/contiki/core/./net/mac/framer.h \
+ /home/user/contiki/core/./sys/stimer.h \
+ /home/user/contiki/core/./net/ipv6/uip-ds6.h \
+ /home/user/contiki/core/./net/ipv6/uip-nd6.h \
+ /home/user/contiki/core/./net/ipv6/uip-ds6-route.h \
+ /home/user/contiki/core/./net/ip/uip-debug.h
+/home/user/contiki/core/net/ipv6/uip-ds6-nbr.c :
+ /home/user/contiki/core/./lib/list.h :
+ /home/user/contiki/core/./net/linkaddr.h :
+ /home/user/contiki/platform/sky/./contiki-conf.h :
+ /home/user/contiki/platform/sky/./platform-conf.h :
+ /home/user/contiki/cpu/msp430/./msp430def.h project-conf.h :
+ /home/user/contiki/core/./net/packetbuf.h :
+ /home/user/contiki/core/./net/llsec/llsec802154.h :
+ /home/user/contiki/core/./net/mac/frame802154.h :
+ /home/user/contiki/core/./net/ip/uip.h :
+ /home/user/contiki/core/./net/ip/uipopt.h :
+ /home/user/contiki/core/./net/ip/tcpip.h :
+ /home/user/contiki/core/./contiki.h :
+ /home/user/contiki/core/./contiki-version.h :
+ /home/user/contiki/core/./contiki-default-conf.h :
+ /home/user/contiki/core/./sys/process.h :
+ /home/user/contiki/core/./sys/pt.h /home/user/contiki/core/./sys/lc.h :
+ /home/user/contiki/core/./sys/lc-switch.h :
+ /home/user/contiki/core/./sys/cc.h :
+ /home/user/contiki/core/./sys/autostart.h :
+ /home/user/contiki/core/./sys/process.h :
+ /home/user/contiki/core/./sys/timer.h :
+ /home/user/contiki/core/./sys/clock.h :
+ /home/user/contiki/core/./sys/ctimer.h :
+ /home/user/contiki/core/./sys/etimer.h :
+ /home/user/contiki/core/./sys/timer.h :
+ /home/user/contiki/core/./sys/etimer.h :
+ /home/user/contiki/core/./sys/rtimer.h :
+ /home/user/contiki/cpu/msp430/./rtimer-arch.h :
+ /home/user/contiki/core/./sys/rtimer.h :
+ /home/user/contiki/core/./sys/pt.h :
+ /home/user/contiki/core/./sys/procinit.h :
+ /home/user/contiki/core/./sys/loader.h :
+ /home/user/contiki/core/./sys/clock.h :
+ /home/user/contiki/core/./sys/energest.h :
+ /home/user/contiki/core/./net/ipv6/uip-ds6-nbr.h :
+ /home/user/contiki/core/./net/nbr-table.h :
+ /home/user/contiki/core/./net/netstack.h :
+ /home/user/contiki/core/./net/llsec/llsec.h :
+ /home/user/contiki/core/./net/mac/mac.h :
+ /home/user/contiki/core/./dev/radio.h :
+ /home/user/contiki/core/./net/mac/rdc.h :
+ /home/user/contiki/core/./net/mac/framer.h :
+ /home/user/contiki/core/./sys/stimer.h :
+ /home/user/contiki/core/./net/ipv6/uip-ds6.h :
+ /home/user/contiki/core/./net/ipv6/uip-nd6.h :
+ /home/user/contiki/core/./net/ipv6/uip-ds6-route.h :
+ /home/user/contiki/core/./net/ip/uip-debug.h :

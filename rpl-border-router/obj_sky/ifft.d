@@ -1,8 +1,10 @@
-obj_sky/ifft.o: ../../../core/lib/ifft.c ../../../core/./lib/ifft.h \
- ../../../platform/sky/./contiki-conf.h \
- ../../../platform/sky/./platform-conf.h \
- ../../../cpu/msp430/./msp430def.h project-conf.h
-../../../core/lib/ifft.c ../../../core/./lib/ifft.h :
- ../../../platform/sky/./contiki-conf.h :
- ../../../platform/sky/./platform-conf.h :
- ../../../cpu/msp430/./msp430def.h project-conf.h :
+obj_sky/ifft.o: /home/user/contiki/core/lib/ifft.c \
+ /home/user/contiki/core/./lib/ifft.h \
+ /home/user/contiki/platform/sky/./contiki-conf.h \
+ /home/user/contiki/platform/sky/./platform-conf.h \
+ /home/user/contiki/cpu/msp430/./msp430def.h project-conf.h
+/home/user/contiki/core/lib/ifft.c :
+ /home/user/contiki/core/./lib/ifft.h :
+ /home/user/contiki/platform/sky/./contiki-conf.h :
+ /home/user/contiki/platform/sky/./platform-conf.h :
+ /home/user/contiki/cpu/msp430/./msp430def.h project-conf.h :

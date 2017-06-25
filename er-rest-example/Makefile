@@ -1,7 +1,7 @@
 all: er-example-server er-example-client
 # use target "er-plugtest-server" explicitly when requried 
 
-CONTIKI=../../..
+CONTIKI=/home/user/contiki
 
 CFLAGS += -DPROJECT_CONF_H=\"project-conf.h\"
 
