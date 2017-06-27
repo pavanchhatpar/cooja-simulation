@@ -47,6 +47,10 @@
 #define UIP_UDP_BUF   ((struct uip_udp_hdr *)&uip_buf[UIP_LLH_LEN + UIP_IPH_LEN])
 #define UDP_TEMP_PORT	8765
 #define UDP_RFID_PORT	5678
+#define UDP_ECG_PORT	8768
+#define UDP_GLUC_PORT	8771
+#define UDP_OXY_PORT	8774
+#define UDP_RESP_PORT	8777
 #define UDP_BP_PORT     9000
 
 #define UDP_EXAMPLE_ID  190
