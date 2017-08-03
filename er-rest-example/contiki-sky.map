@@ -2,7 +2,7 @@ Archive member included because of file (symbol)
 
 contiki-sky.a(er-coap.o)      obj_sky/res-separate.o (coap_serialize_message)
 contiki-sky.a(er-coap-engine.)
-                              er-bp-server.co (coap_rest_implementation)
+                              er-glucose-server.co (coap_rest_implementation)
 contiki-sky.a(er-coap-transac)
                               contiki-sky.a(er-coap-engine.) (coap_register_as_transaction_handler)
 contiki-sky.a(er-coap-observe)
@@ -15,7 +15,7 @@ contiki-sky.a(er-coap-block1.)
                               obj_sky/res-b1-sep-b2.o (coap_block1_handler)
 contiki-sky.a(er-coap-observe)
                               contiki-sky.a(er-coap-engine.) (coap_handle_notification)
-contiki-sky.a(rest-engine.o)  er-bp-server.co (rest_init_engine)
+contiki-sky.a(rest-engine.o)  er-glucose-server.co (rest_init_engine)
 contiki-sky.a(contiki-sky-pla)
                               obj_sky/contiki-sky-main.o (init_platform)
 contiki-sky.a(sht11-sensor.o)
@@ -25,13 +25,13 @@ contiki-sky.a(light-sensor.o)
 contiki-sky.a(battery-sensor.)
                               obj_sky/res-battery.o (battery_sensor)
 contiki-sky.a(button-sensor.o)
-                              er-bp-server.co (button_sensor)
+                              er-glucose-server.co (button_sensor)
 contiki-sky.a(radio-sensor.o)
                               obj_sky/res-radio.o (radio_sensor)
 contiki-sky.a(ds2411.o)       obj_sky/contiki-sky-main.o (ds2411_init)
 contiki-sky.a(xmem.o)         obj_sky/contiki-sky-main.o (xmem_init)
 contiki-sky.a(node-id.o)      obj_sky/contiki-sky-main.o (node_id_restore)
-contiki-sky.a(sensors.o)      er-bp-server.co (sensors_event)
+contiki-sky.a(sensors.o)      er-glucose-server.co (sensors_event)
 contiki-sky.a(cc2420.o)       contiki-sky.a(radio-sensor.o) (cc2420_last_rssi)
 contiki-sky.a(cc2420-arch.o)  contiki-sky.a(cc2420.o) (cc2420_arch_init)
 contiki-sky.a(sky-sensors.o)  contiki-sky.a(light-sensor.o) (sky_sensors_status)
@@ -48,7 +48,7 @@ contiki-sky.a(autostart.o)    obj_sky/contiki-sky-main.o (autostart_start)
 contiki-sky.a(ctimer.o)       obj_sky/contiki-sky-main.o (ctimer_init)
 contiki-sky.a(energest.o)     obj_sky/contiki-sky-main.o (energest_init)
 contiki-sky.a(etimer.o)       contiki-sky.a(clock.o) (etimer_request_poll)
-contiki-sky.a(process.o)      er-bp-server.co (process_current)
+contiki-sky.a(process.o)      er-glucose-server.co (process_current)
 contiki-sky.a(rtimer.o)       obj_sky/contiki-sky-main.o (rtimer_init)
 contiki-sky.a(timer.o)        obj_sky/contiki-sky-main.o (timer_set)
 contiki-sky.a(list.o)         contiki-sky.a(rest-engine.o) (list_init)
@@ -63,7 +63,7 @@ contiki-sky.a(uip-ds6-route.o)
 contiki-sky.a(uip-icmp6.o)    contiki-sky.a(uip6.o) (uip_icmp6_input)
 contiki-sky.a(uip-nd6.o)      contiki-sky.a(uip6.o) (uip_nd6_init)
 contiki-sky.a(tcpip.o)        contiki-sky.a(sicslowpan.o) (tcpip_set_outputfunc)
-contiki-sky.a(uip-debug.o)    er-bp-server.co (uip_debug_ipaddr_print)
+contiki-sky.a(uip-debug.o)    er-glucose-server.co (uip_debug_ipaddr_print)
 contiki-sky.a(uip-udp-packet.)
                               contiki-sky.a(er-coap.o) (uip_udp_packet_send)
 contiki-sky.a(rpl.o)          contiki-sky.a(uip-ds6-nbr.o) (rpl_link_neighbor_callback)
@@ -101,13 +101,13 @@ contiki-sky.a(mac.o)          contiki-sky.a(nullrdc.o) (mac_call_sent_callback)
 /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(atoi.o)
                               obj_sky/res-hello.o (atoi)
 /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(printf.o)
-                              er-bp-server.co (printf)
+                              er-glucose-server.co (printf)
 /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(sprintf.o)
-                              er-bp-server.co (snprintf)
+                              er-glucose-server.co (snprintf)
 /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(vuprintf.o)
                               /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(printf.o) (vuprintf)
 /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(puts.o)
-                              er-bp-server.co (puts)
+                              er-glucose-server.co (puts)
 /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(rand.o)
                               contiki-sky.a(random.o) (rand)
 /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(strchr.o)
@@ -119,7 +119,7 @@ contiki-sky.a(mac.o)          contiki-sky.a(nullrdc.o) (mac_call_sent_callback)
 /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memcmp.o)
                               contiki-sky.a(er-coap-observe) (memcmp)
 /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(strcpy.o)
-                              er-bp-server.co (strcpy)
+                              er-glucose-server.co (strcpy)
 /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memcpy.o)
                               obj_sky/res-hello.o (memcpy)
 /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memmove.o)
@@ -211,7 +211,7 @@ Discarded input sections
  .data          0x00000000        0x0 /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/mmpy-16/crt0ivtbl16.o
  .bss           0x00000000        0x0 /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/mmpy-16/crt0ivtbl16.o
  .text.crt0     0x00000000        0x0 /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/mmpy-16/crt0ivtbl16.o
- .text          0x00000000        0x0 er-bp-server.co
+ .text          0x00000000        0x0 er-glucose-server.co
  .text          0x00000000        0x0 obj_sky/res-separate.o
  .text          0x00000000        0x0 obj_sky/res-sht11.o
  .data          0x00000000       0x12 obj_sky/res-sht11.o
@@ -915,7 +915,7 @@ far_rom          0x00000000         0x00000000
 Linker script and memory map
 
 LOAD /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/mmpy-16/crt0ivtbl16.o
-LOAD er-bp-server.co
+LOAD er-glucose-server.co
 LOAD obj_sky/res-separate.o
 LOAD obj_sky/res-sht11.o
 LOAD obj_sky/res-push.o
@@ -1247,11 +1247,11 @@ LOAD /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a
                 0x0000431a                __isr_13
                 0x0000431a                __isr_9
  .text.process_thread_er_example_server
-                0x0000431e      0x172 er-bp-server.co
+                0x0000431e      0x172 er-glucose-server.co
  .text.send_packet
-                0x00004490       0x52 er-bp-server.co
+                0x00004490       0x52 er-glucose-server.co
  .text.res_get_handler
-                0x000044e2       0xd8 er-bp-server.co
+                0x000044e2       0xd8 er-glucose-server.co
  .text.res_get_handler
                 0x000045ba       0x2a obj_sky/res-separate.o
  .text.res_resume_handler
@@ -2466,66 +2466,66 @@ LOAD /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a
                 0x0000f312                _unexpected_
  *(.near.text .near.text.*)
 
-.rodata         0x0000f314      0x887
+.rodata         0x0000f314      0x86f
                 0x0000f314                . = ALIGN (0x2)
  *(.rodata .rodata.* .gnu.linkonce.r.*)
- .rodata        0x0000f314      0x1ca er-bp-server.co
-                0x0000f480                autostart_processes
- .rodata        0x0000f4de       0x21 obj_sky/res-separate.o
- .rodata        0x0000f4ff       0x21 obj_sky/res-event.o
- .rodata        0x0000f520      0x12e obj_sky/contiki-sky-main.o
- .rodata        0x0000f64e       0x8a contiki-sky.a(er-coap.o)
- .rodata        0x0000f6d8       0xec contiki-sky.a(er-coap-engine.)
-                0x0000f732                coap_rest_implementation
- .rodata        0x0000f7c4       0x11 contiki-sky.a(er-coap-observe)
- .rodata        0x0000f7d5        0xd contiki-sky.a(er-coap-separat)
- .rodata        0x0000f7e2       0x19 contiki-sky.a(er-coap-res-wel)
- .rodata        0x0000f7fb      0x24f contiki-sky.a(er-coap-observe)
- .rodata        0x0000fa4a        0xc contiki-sky.a(rest-engine.o)
- .rodata        0x0000fa56       0x10 contiki-sky.a(button-sensor.o)
-                0x0000fa5e                button_sensor
- .rodata        0x0000fa66        0x8 contiki-sky.a(sensors.o)
- *fill*         0x0000fa6e        0x2 00
+ .rodata        0x0000f314      0x1b2 er-glucose-server.co
+                0x0000f470                autostart_processes
+ .rodata        0x0000f4c6       0x21 obj_sky/res-separate.o
+ .rodata        0x0000f4e7       0x21 obj_sky/res-event.o
+ .rodata        0x0000f508      0x12e obj_sky/contiki-sky-main.o
+ .rodata        0x0000f636       0x8a contiki-sky.a(er-coap.o)
+ .rodata        0x0000f6c0       0xec contiki-sky.a(er-coap-engine.)
+                0x0000f71a                coap_rest_implementation
+ .rodata        0x0000f7ac       0x11 contiki-sky.a(er-coap-observe)
+ .rodata        0x0000f7bd        0xd contiki-sky.a(er-coap-separat)
+ .rodata        0x0000f7ca       0x19 contiki-sky.a(er-coap-res-wel)
+ .rodata        0x0000f7e3      0x24f contiki-sky.a(er-coap-observe)
+ .rodata        0x0000fa32        0xc contiki-sky.a(rest-engine.o)
+ .rodata        0x0000fa3e       0x10 contiki-sky.a(button-sensor.o)
+                0x0000fa46                button_sensor
+ .rodata        0x0000fa4e        0x8 contiki-sky.a(sensors.o)
+ *fill*         0x0000fa56        0x2 00
  .rodata.get_value
-                0x0000fa70       0x1c contiki-sky.a(cc2420.o)
- .rodata        0x0000fa8c       0x3e contiki-sky.a(cc2420.o)
-                0x0000fa8c                cc2420_aes_128_driver
-                0x0000fa90                cc2420_driver
- .rodata        0x0000faca        0xf contiki-sky.a(ctimer.o)
- .rodata        0x0000fad9        0xc contiki-sky.a(etimer.o)
- *fill*         0x0000fae5        0x1 00
- .rodata        0x0000fae6       0x24 contiki-sky.a(sicslowpan.o)
-                0x0000faf2                sicslowpan_driver
-                0x0000faf8                llprefix
-                0x0000fafa                unc_mxconf
-                0x0000fafe                unc_ctxconf
-                0x0000fb02                unc_llconf
- .rodata        0x0000fb0a        0xd contiki-sky.a(tcpip.o)
- .rodata        0x0000fb17       0x29 contiki-sky.a(uip-debug.o)
- .rodata        0x0000fb40        0x8 contiki-sky.a(framer-802154.o)
-                0x0000fb40                framer_802154
- .rodata        0x0000fb48       0x16 contiki-sky.a(nullmac.o)
-                0x0000fb50                nullmac_driver
- .rodata        0x0000fb5e       0x18 contiki-sky.a(nullrdc.o)
-                0x0000fb66                nullrdc_driver
- .rodata        0x0000fb76        0x8 contiki-sky.a(linkaddr.o)
-                0x0000fb76                linkaddr_null
- .rodata        0x0000fb7e       0x14 contiki-sky.a(nullsec.o)
-                0x0000fb86                nullsec_driver
- .rodata        0x0000fb92        0x2 contiki-sky.a(frame802154.o)
+                0x0000fa58       0x1c contiki-sky.a(cc2420.o)
+ .rodata        0x0000fa74       0x3e contiki-sky.a(cc2420.o)
+                0x0000fa74                cc2420_aes_128_driver
+                0x0000fa78                cc2420_driver
+ .rodata        0x0000fab2        0xf contiki-sky.a(ctimer.o)
+ .rodata        0x0000fac1        0xc contiki-sky.a(etimer.o)
+ *fill*         0x0000facd        0x1 00
+ .rodata        0x0000face       0x24 contiki-sky.a(sicslowpan.o)
+                0x0000fada                sicslowpan_driver
+                0x0000fae0                llprefix
+                0x0000fae2                unc_mxconf
+                0x0000fae6                unc_ctxconf
+                0x0000faea                unc_llconf
+ .rodata        0x0000faf2        0xd contiki-sky.a(tcpip.o)
+ .rodata        0x0000faff       0x29 contiki-sky.a(uip-debug.o)
+ .rodata        0x0000fb28        0x8 contiki-sky.a(framer-802154.o)
+                0x0000fb28                framer_802154
+ .rodata        0x0000fb30       0x16 contiki-sky.a(nullmac.o)
+                0x0000fb38                nullmac_driver
+ .rodata        0x0000fb46       0x18 contiki-sky.a(nullrdc.o)
+                0x0000fb4e                nullrdc_driver
+ .rodata        0x0000fb5e        0x8 contiki-sky.a(linkaddr.o)
+                0x0000fb5e                linkaddr_null
+ .rodata        0x0000fb66       0x14 contiki-sky.a(nullsec.o)
+                0x0000fb6e                nullsec_driver
+ .rodata        0x0000fb7a        0x2 contiki-sky.a(frame802154.o)
  .rodata.vuprintf
-                0x0000fb94        0x7 /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(vuprintf.o)
+                0x0000fb7c        0x7 /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(vuprintf.o)
  *(.near.rodata .near.rodata.*)
-                0x0000fb9c                . = ALIGN (0x2)
-                0x0000fb9c                _etext = .
+                0x0000fb84                . = ALIGN (0x2)
+                0x0000fb84                _etext = .
 
-.data           0x00001100      0x134 load address 0x0000fb9c
+.data           0x00001100      0x134 load address 0x0000fb84
                 0x00001100                . = ALIGN (0x2)
                 0x00001100                __data_start = .
  *(.data .data.* .gnu.linkonce.d.*)
- .data          0x00001100       0x1c er-bp-server.co
+ .data          0x00001100       0x1c er-glucose-server.co
                 0x00001100                er_example_server
-                0x0000110a                res_bp
+                0x0000110a                res_glucose
  .data          0x0000111c       0x12 obj_sky/res-separate.o
                 0x0000111c                res_separate
  .data          0x0000112e       0x12 obj_sky/res-event.o
@@ -2568,13 +2568,13 @@ LOAD /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a
  *(.near.data .near.data.*)
                 0x00001234                . = ALIGN (0x2)
                 0x00001234                _edata = .
-                0x0000fb9c                __data_load_start = LOADADDR (.data)
+                0x0000fb84                __data_load_start = LOADADDR (.data)
                 0x00000134                __data_size = SIZEOF (.data)
 
-.bss            0x00001234     0x1c94 load address 0x0000fcd0
+.bss            0x00001234     0x1c94 load address 0x0000fcb8
                 0x00001234                __bss_start = .
  *(.bss .bss.*)
- .bss           0x00001234       0x3c er-bp-server.co
+ .bss           0x00001234       0x3c er-glucose-server.co
  .bss           0x00001270       0x7a obj_sky/res-separate.o
  .bss           0x000012ea        0x4 obj_sky/res-event.o
  .bss           0x000012ee        0xc obj_sky/contiki-sky-main.o
@@ -2686,7 +2686,7 @@ LOAD /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a
                 0x00002ec8                __bss_end = .
                 0x00001c94                __bss_size = SIZEOF (.bss)
 
-.noinit         0x00002ec8        0x2 load address 0x0000fcd0
+.noinit         0x00002ec8        0x2 load address 0x0000fcb8
                 0x00002ec8                . = ALIGN (0x2)
                 0x00002ec8                __noinit_start = .
  *(.noinit .noinit.*)
@@ -2766,7 +2766,7 @@ LOAD /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a
 
 .stab           0x00000000    0x2cd90
  *(.stab)
- .stab          0x00000000     0x1c20 er-bp-server.co
+ .stab          0x00000000     0x1c20 er-glucose-server.co
  .stab          0x00001c20      0xb70 obj_sky/res-separate.o
                                0x19ec (size before relaxing)
  .stab          0x00002790      0x5e8 obj_sky/res-event.o
@@ -2900,9 +2900,9 @@ LOAD /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a
  .stab          0x0002cb98      0x1f8 contiki-sky.a(mac.o)
                                 0x4ec (size before relaxing)
 
-.stabstr        0x00000000    0x22f81
+.stabstr        0x00000000    0x22fca
  *(.stabstr)
- .stabstr       0x00000000    0x22f81 er-bp-server.co
+ .stabstr       0x00000000    0x22fca er-glucose-server.co
 
 .stab.excl
  *(.stab.excl)
@@ -2918,7 +2918,7 @@ LOAD /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a
 
 .comment        0x00000000       0x30
  *(.comment)
- .comment       0x00000000       0x30 er-bp-server.co
+ .comment       0x00000000       0x30 er-glucose-server.co
                                  0x31 (size before relaxing)
  .comment       0x00000000       0x31 obj_sky/res-separate.o
  .comment       0x00000000       0x31 obj_sky/res-event.o
@@ -3241,6 +3241,6 @@ LOAD /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a
  .debug_ranges  0x00000094        0x8 /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memmove.o)
  .debug_ranges  0x0000009c        0x8 /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memset.o)
                 0x00003900                PROVIDE (__stack, (ORIGIN (ram) + 0x2800))
-                0x0000fb9c                __data_start_rom = _etext
-                0x0000fcd0                __data_end_rom = (_etext + SIZEOF (.data))
-OUTPUT(er-bp-server.sky elf32-msp430)
+                0x0000fb84                __data_start_rom = _etext
+                0x0000fcb8                __data_end_rom = (_etext + SIZEOF (.data))
+OUTPUT(er-glucose-server.sky elf32-msp430)

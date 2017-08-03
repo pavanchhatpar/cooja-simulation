@@ -2364,9 +2364,9 @@ LOAD /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a
  .stab          0x00027624      0x648 contiki-sky.a(mac-sequence.o)
                                0x1770 (size before relaxing)
 
-.stabstr        0x00000000    0x1c444
+.stabstr        0x00000000    0x1c433
  *(.stabstr)
- .stabstr       0x00000000    0x1c444 rfid-server.co
+ .stabstr       0x00000000    0x1c433 rfid-server.co
 
 .stab.excl
  *(.stab.excl)

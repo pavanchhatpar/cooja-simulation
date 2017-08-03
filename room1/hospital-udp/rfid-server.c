@@ -39,6 +39,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <time.h>
 
 #define DEBUG DEBUG_PRINT
 #include "net/ip/uip-debug.h"
@@ -48,39 +49,184 @@
 #define UDP_TEMP_PORT	8765
 #define UDP_RFID_PORT	5678
 #define UDP_ECG_PORT	8768
-#define UDP_GLUC_PORT	8771
+#define UDP_GLU_PORT	8771
 #define UDP_OXY_PORT	8774
 #define UDP_RESP_PORT	8777
 #define UDP_BP_PORT     9000
 
 #define UDP_EXAMPLE_ID  190
 
-static struct uip_udp_conn *server_conn, *server_conn_bp;
+#define KEY 12346
+
+
+struct ll {
+   struct ll *next;
+   struct ll *prev;
+   char nonce[20];
+};
+
+struct ll *nhead = NULL;
+//srand(time(NULL));
+
+static struct uip_udp_conn *server_conn, *server_conn_bp, *server_conn_ecg, *server_conn_glu, *server_conn_oxy, *server_conn_resp;
 
 PROCESS(udp_server_process, "UDP server process");
 AUTOSTART_PROCESSES(&udp_server_process);
+
+static int
+isNonceCorrect(char cstr[20]) {
+  struct ll *curr = nhead;
+  struct ll *tmp;
+  int i;
+  while(curr != NULL) {
+    i = -1;
+    while(cstr[++i] != '\0' && curr->nonce[i] != '\0') {
+      if(curr->nonce[i] != cstr[i]) {
+        break;
+      }
+    }
+    if(cstr[i] == '\0' && curr->nonce[i] == '\0') {
+      tmp = curr;
+      if(curr->prev != NULL) {
+        curr->prev->next = curr->next;
+      }
+      if(curr->next != NULL) {
+        curr->next->prev = curr->prev;
+      }
+      free(tmp);
+      return 1;
+    }
+    curr = curr->next;
+  }
+  return 0;
+}
+
+static void
+save_nonce(char cstr[20]) {
+  struct ll *curr;
+  int i = -1;
+  if(nhead == NULL) {
+    nhead = (struct ll*)malloc(sizeof(struct ll));
+    nhead->next = NULL;
+    nhead->prev = NULL;
+    curr=nhead;
+  } else {
+    curr = nhead;
+    while(curr->next != NULL) {
+      curr = curr->next;
+    }
+    curr->next = (struct ll*)malloc(sizeof(struct ll));
+    curr->next->prev = curr;
+    curr = curr->next;
+    curr->next = NULL;
+  }
+  while(cstr[++i] != '\0') {
+    curr->nonce[i] = cstr[i];
+  }
+  curr->nonce[i] = '\0';
+}
+
 /*---------------------------------------------------------------------------*/
 static void
 tcpip_handler(void)
 {
   char *appdata;
-
+  char non[20], sdata[20], ndata[20];
+  int i, nonce;
   if(uip_newdata()) {
     appdata = (char *)uip_appdata;
-    appdata[uip_datalen()] = 0;
-    PRINTF("Request to '%s' recv from ", appdata);
-    PRINT6ADDR(&UIP_IP_BUF->srcipaddr);
-    PRINTF("\n");
-    PRINTF("DATA sending reply to port %d\n", UIP_UDP_BUF->srcport);
-    if((int)UIP_UDP_BUF->srcport == UIP_HTONS(UDP_TEMP_PORT)) {
-      uip_ipaddr_copy(&server_conn->ripaddr, &UIP_IP_BUF->srcipaddr);
-      uip_udp_packet_send(server_conn, "121", sizeof("121"));
-      uip_create_unspecified(&server_conn->ripaddr);
-    } else if((int)UIP_UDP_BUF->srcport == UIP_HTONS(UDP_BP_PORT)) {
-      uip_ipaddr_copy(&server_conn_bp->ripaddr, &UIP_IP_BUF->srcipaddr);
-      uip_udp_packet_send(server_conn_bp, "121", sizeof("121"));
-      uip_create_unspecified(&server_conn_bp->ripaddr);
+    appdata[uip_datalen()] = '\0';
+    switch(appdata[0]) {
+    	case 'n':
+	    nonce = rand() % 7543;
+	    if (nonce < 0) {
+		nonce *= -1;
+	    }
+	    sprintf(ndata, "%d", nonce);
+	    PRINTF("NONCE sending %s reply to port %d\n", ndata, UIP_UDP_BUF->srcport);
+	    if((int)UIP_UDP_BUF->srcport == UIP_HTONS(UDP_TEMP_PORT)) {
+	      uip_ipaddr_copy(&server_conn->ripaddr, &UIP_IP_BUF->srcipaddr);
+	      uip_udp_packet_send(server_conn, ndata, sizeof(ndata));
+	      uip_create_unspecified(&server_conn->ripaddr);
+	    } else if((int)UIP_UDP_BUF->srcport == UIP_HTONS(UDP_BP_PORT)) {
+	      uip_ipaddr_copy(&server_conn_bp->ripaddr, &UIP_IP_BUF->srcipaddr);
+	      uip_udp_packet_send(server_conn_bp, ndata, sizeof(ndata));
+	      uip_create_unspecified(&server_conn_bp->ripaddr);
+	    } else if((int)UIP_UDP_BUF->srcport == UIP_HTONS(UDP_ECG_PORT)) {
+	      uip_ipaddr_copy(&server_conn_ecg->ripaddr, &UIP_IP_BUF->srcipaddr);
+	      uip_udp_packet_send(server_conn_ecg, ndata, sizeof(ndata));
+	      uip_create_unspecified(&server_conn_ecg->ripaddr);
+	    } else if((int)UIP_UDP_BUF->srcport == UIP_HTONS(UDP_GLU_PORT)) {
+	      uip_ipaddr_copy(&server_conn_glu->ripaddr, &UIP_IP_BUF->srcipaddr);
+	      uip_udp_packet_send(server_conn_glu, ndata, sizeof(ndata));
+	      uip_create_unspecified(&server_conn_glu->ripaddr);
+	    } else if((int)UIP_UDP_BUF->srcport == UIP_HTONS(UDP_OXY_PORT)) {
+	      uip_ipaddr_copy(&server_conn_oxy->ripaddr, &UIP_IP_BUF->srcipaddr);
+	      uip_udp_packet_send(server_conn_oxy, ndata, sizeof(ndata));
+	      uip_create_unspecified(&server_conn_oxy->ripaddr);
+	    } else if((int)UIP_UDP_BUF->srcport == UIP_HTONS(UDP_RESP_PORT)) {
+	      uip_ipaddr_copy(&server_conn_resp->ripaddr, &UIP_IP_BUF->srcipaddr);
+	      uip_udp_packet_send(server_conn_resp, ndata, sizeof(ndata));
+	      uip_create_unspecified(&server_conn_resp->ripaddr);
+	    }
+	    i = -1;
+	    while(ndata[++i] != '\0') {
+		ndata[i] = (ndata[i] - '0' + KEY) % 10 + '0';
+	    }
+	    printf("saving nonce %s\n", ndata);
+	    save_nonce(ndata);
+	    break;
+	default:
+		i = -1;
+		while(appdata[++i] != '\0') {
+		  non[i] = appdata[i];
+		}
+		non[i] = '\0';	
+		if(isNonceCorrect(non)) {
+		    i = -1;
+		    sdata[0] = 'd';
+		    while(non[++i] != '\0') {
+			sdata[i+1] = (non[i] - '0' + KEY)%10 + '0';
+		    }
+		    i++;
+		    sdata[i] = '$';
+		    sdata[i+1] = '1';
+		    sdata[i+2] = '2';
+		    sdata[i+3] = '1';
+		    sdata[i+4] = '\0';
+		    PRINTF("Request to send data recv from ");
+		    PRINT6ADDR(&UIP_IP_BUF->srcipaddr);
+		    PRINTF("\n");
+		    if((int)UIP_UDP_BUF->srcport == UIP_HTONS(UDP_TEMP_PORT)) {
+		      uip_ipaddr_copy(&server_conn->ripaddr, &UIP_IP_BUF->srcipaddr);
+		      uip_udp_packet_send(server_conn, sdata, sizeof(sdata));
+		      uip_create_unspecified(&server_conn->ripaddr);
+		    } else if((int)UIP_UDP_BUF->srcport == UIP_HTONS(UDP_BP_PORT)) {
+		      uip_ipaddr_copy(&server_conn_bp->ripaddr, &UIP_IP_BUF->srcipaddr);
+		      uip_udp_packet_send(server_conn_bp, sdata, sizeof(sdata));
+		      uip_create_unspecified(&server_conn_bp->ripaddr);
+		    } else if((int)UIP_UDP_BUF->srcport == UIP_HTONS(UDP_ECG_PORT)) {
+		      uip_ipaddr_copy(&server_conn_ecg->ripaddr, &UIP_IP_BUF->srcipaddr);
+		      uip_udp_packet_send(server_conn_ecg, sdata, sizeof(sdata));
+		      uip_create_unspecified(&server_conn_ecg->ripaddr);
+		    } else if((int)UIP_UDP_BUF->srcport == UIP_HTONS(UDP_GLU_PORT)) {
+		      uip_ipaddr_copy(&server_conn_glu->ripaddr, &UIP_IP_BUF->srcipaddr);
+		      uip_udp_packet_send(server_conn_glu, sdata, sizeof(sdata));
+		      uip_create_unspecified(&server_conn_glu->ripaddr);
+		    } else if((int)UIP_UDP_BUF->srcport == UIP_HTONS(UDP_OXY_PORT)) {
+		      uip_ipaddr_copy(&server_conn_oxy->ripaddr, &UIP_IP_BUF->srcipaddr);
+		      uip_udp_packet_send(server_conn_oxy, sdata, sizeof(sdata));
+		      uip_create_unspecified(&server_conn_oxy->ripaddr);
+		    } else if((int)UIP_UDP_BUF->srcport == UIP_HTONS(UDP_RESP_PORT)) {
+		      uip_ipaddr_copy(&server_conn_resp->ripaddr, &UIP_IP_BUF->srcipaddr);
+		      uip_udp_packet_send(server_conn_resp, sdata, sizeof(sdata));
+		      uip_create_unspecified(&server_conn_resp->ripaddr);
+		    }
+		} else {
+			PRINTF("NONCE DID NOT MATCH\n");
+		}	
     }
+    
   }
 }
 
@@ -160,7 +306,7 @@ PROCESS_THREAD(udp_server_process, ev, data)
   /* The data sink runs with a 100% duty cycle in order to ensure high 
      packet reception rates. */
   NETSTACK_MAC.off(1);
-
+//temperature
   server_conn = udp_new(NULL, UIP_HTONS(UDP_TEMP_PORT), NULL);
   if(server_conn == NULL) {
     PRINTF("No UDP connection available, exiting the process!\n");
@@ -172,7 +318,7 @@ PROCESS_THREAD(udp_server_process, ev, data)
   PRINT6ADDR(&server_conn->ripaddr);
   PRINTF(" local/remote port %u/%u\n", UIP_HTONS(server_conn->lport),
          UIP_HTONS(server_conn->rport));
-
+//bp
   server_conn_bp = udp_new(NULL, UIP_HTONS(UDP_BP_PORT), NULL);
   if(server_conn_bp == NULL) {
     PRINTF("No UDP connection available, exiting the process!\n");
@@ -184,12 +330,58 @@ PROCESS_THREAD(udp_server_process, ev, data)
   PRINT6ADDR(&server_conn_bp->ripaddr);
   PRINTF(" local/remote port %u/%u\n", UIP_HTONS(server_conn_bp->lport),
          UIP_HTONS(server_conn_bp->rport));
+//ecg
+  server_conn_ecg = udp_new(NULL, UIP_HTONS(UDP_ECG_PORT), NULL);
+  if(server_conn_ecg == NULL) {
+    PRINTF("No UDP connection available, exiting the process!\n");
+    PROCESS_EXIT();
+  }
+  udp_bind(server_conn_ecg, UIP_HTONS(UDP_RFID_PORT));
 
+  PRINTF("Created a server connection with remote address ");
+  PRINT6ADDR(&server_conn_ecg->ripaddr);
+  PRINTF(" local/remote port %u/%u\n", UIP_HTONS(server_conn_ecg->lport),
+         UIP_HTONS(server_conn_ecg->rport));
+//glucose
+server_conn_glu = udp_new(NULL, UIP_HTONS(UDP_GLU_PORT), NULL);
+  if(server_conn_glu == NULL) {
+    PRINTF("No UDP connection available, exiting the process!\n");
+    PROCESS_EXIT();
+  }
+  udp_bind(server_conn_glu, UIP_HTONS(UDP_RFID_PORT));
+
+  PRINTF("Created a server connection with remote address ");
+  PRINT6ADDR(&server_conn_glu->ripaddr);
+  PRINTF(" local/remote port %u/%u\n", UIP_HTONS(server_conn_glu->lport),
+         UIP_HTONS(server_conn_glu->rport));
+//oxygen
+server_conn_oxy = udp_new(NULL, UIP_HTONS(UDP_OXY_PORT), NULL);
+  if(server_conn_oxy == NULL) {
+    PRINTF("No UDP connection available, exiting the process!\n");
+    PROCESS_EXIT();
+  }
+  udp_bind(server_conn_oxy, UIP_HTONS(UDP_RFID_PORT));
+
+  PRINTF("Created a server connection with remote address ");
+  PRINT6ADDR(&server_conn_oxy->ripaddr);
+  PRINTF(" local/remote port %u/%u\n", UIP_HTONS(server_conn_oxy->lport),
+         UIP_HTONS(server_conn_oxy->rport));
+//respiration
+server_conn_resp = udp_new(NULL, UIP_HTONS(UDP_RESP_PORT), NULL);
+  if(server_conn_resp == NULL) {
+    PRINTF("No UDP connection available, exiting the process!\n");
+    PROCESS_EXIT();
+  }
+  udp_bind(server_conn_resp, UIP_HTONS(UDP_RFID_PORT));
+
+  PRINTF("Created a server connection with remote address ");
+  PRINT6ADDR(&server_conn_resp->ripaddr);
+  PRINTF(" local/remote port %u/%u\n", UIP_HTONS(server_conn_resp->lport),
+         UIP_HTONS(server_conn_resp->rport));
 
   while(1) {
     PROCESS_YIELD();
     if(ev == tcpip_event) {
-      PRINTF("tcpip_event");
       tcpip_handler();
     } else if (ev == sensors_event && data == &button_sensor) {
       PRINTF("Initiaing global repair\n");
