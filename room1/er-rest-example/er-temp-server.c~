@@ -43,7 +43,7 @@
 #include "contiki-net.h"
 #include "rest-engine.h"
 
-#define UDP_GLU_PORT	8771
+#define UDP_TEMP_PORT	8765
 #define UDP_RFID_PORT 5678
 #include "net/ip/uip.h"
 #include "net/ipv6/uip-ds6.h"
@@ -83,8 +83,8 @@ struct ll *nhead = NULL;
 static char rfid[10];
 static void res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 
-RESOURCE(res_glucose,
-         "title=\"Glucose sensor(JSON, Plain TEXT, XML)\";rt=\"Reporter\"",
+RESOURCE(res_temp,
+         "title=\"Temperature sensor(JSON, Plain TEXT, XML)\";rt=\"Reporter\"",
          res_get_handler,
          NULL,
          NULL,
@@ -102,12 +102,12 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
     REST.set_response_payload(response, (uint8_t *)buffer, strlen((char *)buffer));
   } else if(accept == REST.type.APPLICATION_XML) {
     REST.set_header_content_type(response, REST.type.APPLICATION_XML);
-    snprintf((char *)buffer, REST_MAX_CHUNK_SIZE, "<glucose>75</glucose><rfid>%s</rfid>", rfid);
+    snprintf((char *)buffer, REST_MAX_CHUNK_SIZE, "<temperature>37</temperature><rfid>%s</rfid>", rfid);
 
     REST.set_response_payload(response, buffer, strlen((char *)buffer));
   } else if(accept == REST.type.APPLICATION_JSON) {
     REST.set_header_content_type(response, REST.type.APPLICATION_JSON);
-    snprintf((char *)buffer, REST_MAX_CHUNK_SIZE, "{'glucose': 75, 'rfid': '%s'}", rfid);
+    snprintf((char *)buffer, REST_MAX_CHUNK_SIZE, "{'temperature': 37, 'rfid': '%s'}", rfid);
 
     REST.set_response_payload(response, buffer, strlen((char *)buffer));
   } else {
@@ -268,12 +268,12 @@ PROCESS_THREAD(er_example_server, ev, data)
     printf("No UDP connection available, exiting the process!\n");
     PROCESS_EXIT();
   }
-  udp_bind(client_conn, UIP_HTONS(UDP_GLU_PORT)); 
+  udp_bind(client_conn, UIP_HTONS(UDP_TEMP_PORT)); 
   
   // Initialize the REST engine. 
   rest_init_engine();
 
-  rest_activate_resource(&res_glucose, "sensor/glucose");
+  rest_activate_resource(&res_temp, "sensor/temp");
 
   etimer_set(&periodic, SEND_INTERVAL);
   /* Define application-specific events here. */

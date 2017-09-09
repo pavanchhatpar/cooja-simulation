@@ -43,23 +43,7 @@
 #include "contiki-net.h"
 #include "rest-engine.h"
 
-#if PLATFORM_HAS_BUTTON
-#include "dev/button-sensor.h"
-#endif
-
-#define DEBUG 1
-#if DEBUG
-#include <stdio.h>
-#define PRINTF(...) printf(__VA_ARGS__)
-#define PRINT6ADDR(addr) PRINTF("[%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x]", ((uint8_t *)addr)[0], ((uint8_t *)addr)[1], ((uint8_t *)addr)[2], ((uint8_t *)addr)[3], ((uint8_t *)addr)[4], ((uint8_t *)addr)[5], ((uint8_t *)addr)[6], ((uint8_t *)addr)[7], ((uint8_t *)addr)[8], ((uint8_t *)addr)[9], ((uint8_t *)addr)[10], ((uint8_t *)addr)[11], ((uint8_t *)addr)[12], ((uint8_t *)addr)[13], ((uint8_t *)addr)[14], ((uint8_t *)addr)[15])
-#define PRINTLLADDR(lladdr) PRINTF("[%02x:%02x:%02x:%02x:%02x:%02x]", (lladdr)->addr[0], (lladdr)->addr[1], (lladdr)->addr[2], (lladdr)->addr[3], (lladdr)->addr[4], (lladdr)->addr[5])
-#else
-#define PRINTF(...)
-#define PRINT6ADDR(addr)
-#define PRINTLLADDR(addr)
-#endif
-
-#define UDP_OXY_PORT 8774
+#define UDP_OXY_PORT	8774
 #define UDP_RFID_PORT 5678
 #include "net/ip/uip.h"
 #include "net/ipv6/uip-ds6.h"
@@ -67,14 +51,20 @@
 #include "net/ip/uip-debug.h"
 #include "lib/random.h"
 #include "sys/ctimer.h"
-
+#include "node-id.h"
 #define MAX_PAYLOAD_LEN		30
 #ifndef PERIOD
 #define PERIOD 60
 #endif
 #define SEND_INTERVAL		(PERIOD * CLOCK_SECOND)
 #define SEND_TIME		(random_rand() % (SEND_INTERVAL))
+#define KEY 12346
 
+struct ll {
+   struct ll *next;
+   struct ll *prev;
+   char nonce[20];
+};
 
 /*
  * Resources to be activated need to be imported through the extern keyword.
@@ -87,6 +77,8 @@ extern resource_t
 
 static struct uip_udp_conn *client_conn;
 static uip_ipaddr_t server_ipaddr;
+
+struct ll *nhead = NULL;
 
 static char rfid[10];
 static void res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
@@ -125,20 +117,113 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
   }
 }
 
+static int data_received = 0;
+
+static int
+isNonceCorrect(char cstr[20]) {
+  struct ll *curr = nhead;
+  struct ll *tmp;
+  int i;
+  while(curr != NULL) {
+    i = -1;
+    while(cstr[++i] != '\0' && curr->nonce[i] != '\0') {
+      if(curr->nonce[i] != cstr[i]) {
+        break;
+      }
+    }
+    if(cstr[i] == '\0' && curr->nonce[i] == '\0') {
+      tmp = curr;
+      if(curr->prev != NULL) {
+        curr->prev->next = curr->next;
+      }
+      if(curr->next != NULL) {
+        curr->next->prev = curr->prev;
+      }
+      free(tmp);
+      return 1;
+    }
+    curr = curr->next;
+  }
+  return 0;
+}
+
+static void
+save_cnonce(char cstr[20]) {
+  struct ll *curr;
+  int i = -1;
+  if(nhead == NULL) {
+    nhead = (struct ll*)malloc(sizeof(struct ll));
+    nhead->next = NULL;
+    nhead->prev = NULL;
+    curr=nhead;
+  } else {
+    curr = nhead;
+    while(curr->next != NULL) {
+      curr = curr->next;
+    }
+    curr->next = (struct ll*)malloc(sizeof(struct ll));
+    curr->next->prev = curr;
+    curr = curr->next;
+    curr->next = NULL;
+  }
+  while(cstr[++i] != '\0') {
+    curr->nonce[i] = cstr[i];
+  }
+  curr->nonce[i] = '\0';
+}
+
+/*---------------------------------------------------------------------------*/
+static void
+send_cnonce(char *cstr)
+{
+  //static int seq_id;
+  char buf[MAX_PAYLOAD_LEN];
+  sprintf(buf, "%s", cstr);
+  uip_udp_packet_sendto(client_conn, buf, strlen(buf),
+                        &server_ipaddr, UIP_HTONS(UDP_RFID_PORT));
+}
+
 /*---------------------------------------------------------------------------*/
 static void
 tcpip_handler(void)
 {
-  char *str;
-  int i=-1;
+  char *str, cstr[20], non[20];
+  int i=0, j = 0;
   if(uip_newdata()) {
     str = uip_appdata;
     str[uip_datalen()] = '\0';
-    PRINTF("RFID tag received: '%s'\n", str);
-    //rfid = str; 
-    while(str[++i] != '\0')
-      rfid[i] = str[i];
-    rfid[i] = '\0';
+    switch(str[0]) {
+      case 'd':
+       
+        while(str[++i] != '$') {
+          non[i-1] = str[i];
+        }
+        non[i-1] = '\0';
+        if(isNonceCorrect(non)) {
+    	  while(str[++i] != '\0') {
+      	    rfid[j++] = str[i];
+          }
+    	  rfid[i] = '\0';
+          data_received = 1;
+	  printf("RFID tag received: '%s'\n", rfid);
+        } else {
+          printf("NONCE DID NOT MATCH %s\n", non);
+        }
+	break;
+      default:
+        i = -1;
+        while(str[++i] != '\0') {
+          cstr[i] = (str[i] - '0' + KEY)%10 + '0';
+        }
+	cstr[i] = '\0';
+	send_cnonce(cstr);
+	i = -1;
+        while(cstr[++i] != '\0') {
+          cstr[i] = (cstr[i] - '0' + KEY)%10 + '0';
+        }
+	cstr[i] = '\0';
+	save_cnonce(cstr);
+    }
   }
 }
 /*---------------------------------------------------------------------------*/
@@ -148,10 +233,8 @@ send_packet(void *ptr)
   //static int seq_id;
   char buf[MAX_PAYLOAD_LEN];
 
-  PRINTF("Sending request to ");
-  PRINT6ADDR(&server_ipaddr);
-  PRINTF(" for RFID\n");
-  sprintf(buf, "Send RFID tag");
+  printf("Sending request for nonce\n");
+  sprintf(buf, "nSend nonce");
   uip_udp_packet_sendto(client_conn, buf, strlen(buf),
                         &server_ipaddr, UIP_HTONS(UDP_RFID_PORT));
 }
@@ -170,13 +253,18 @@ PROCESS_THREAD(er_example_server, ev, data)
 
   PROCESS_PAUSE();
 
-  PRINTF("Start Erbium Example Server\n");
-  PRINTF("Start UDP client\n");
- 
-  uip_ip6addr(&server_ipaddr, 0xaaaa, 0, 0, 0, 0x0212, 0x7402, 0x0002, 0x0202);
+  int v1 = 0x7400, v2 = 0x0000, v3 = 0x0000;
+  int nid = node_id - 2;
+  int rfid_node_id = nid/7;
+  rfid_node_id *= 7;
+  rfid_node_id += 2;
+  v1 += rfid_node_id;
+  v2 += rfid_node_id;
+  v3 += (rfid_node_id * 0x100) + rfid_node_id;
+  uip_ip6addr(&server_ipaddr, 0xaaaa, 0, 0, 0, 0x0212, v1, v2, v3);
   client_conn = udp_new(NULL, UIP_HTONS(UDP_RFID_PORT), NULL); 
   if(client_conn == NULL) {
-    PRINTF("No UDP connection available, exiting the process!\n");
+    printf("No UDP connection available, exiting the process!\n");
     PROCESS_EXIT();
   }
   udp_bind(client_conn, UIP_HTONS(UDP_OXY_PORT)); 
@@ -193,23 +281,12 @@ PROCESS_THREAD(er_example_server, ev, data)
     if(ev == tcpip_event) {
       tcpip_handler();
     }
-    if(etimer_expired(&periodic)) {
+    if(etimer_expired(&periodic) && !data_received) {
       etimer_reset(&periodic);
       ctimer_set(&backoff_timer, SEND_TIME, send_packet, NULL);
     }
-#if PLATFORM_HAS_BUTTON
-    if(ev == sensors_event && data == &button_sensor) {
-      PRINTF("*******BUTTON*******\n");
-
-      /* Call the event_handler for this application-specific event. */
-      res_event.trigger();
-
-      /* Also call the separate response example handler. */
-      res_separate.resume();
-    }
-    
-#endif /* PLATFORM_HAS_BUTTON */
   }                             /* while (1) */
 
   PROCESS_END();
 }
+

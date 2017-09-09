@@ -43,12 +43,6 @@
 #include "contiki-net.h"
 #include "rest-engine.h"
 
-#if PLATFORM_HAS_BUTTON
-#include "dev/button-sensor.h"
-#endif
-
-#include <stdio.h>
-
 #define UDP_BP_PORT 9000
 #define UDP_RFID_PORT 5678
 #include "net/ip/uip.h"
@@ -57,7 +51,7 @@
 #include "net/ip/uip-debug.h"
 #include "lib/random.h"
 #include "sys/ctimer.h"
-
+#include "node-id.h"
 #define MAX_PAYLOAD_LEN		30
 #ifndef PERIOD
 #define PERIOD 60
@@ -239,9 +233,7 @@ send_packet(void *ptr)
   //static int seq_id;
   char buf[MAX_PAYLOAD_LEN];
 
-  printf("Sending request to ");
-  PRINT6ADDR(&server_ipaddr);
-  printf(" for nonce\n");
+  printf("Sending request for nonce\n");
   sprintf(buf, "nSend nonce");
   uip_udp_packet_sendto(client_conn, buf, strlen(buf),
                         &server_ipaddr, UIP_HTONS(UDP_RFID_PORT));
@@ -261,10 +253,15 @@ PROCESS_THREAD(er_example_server, ev, data)
 
   PROCESS_PAUSE();
 
-  printf("Start Erbium Example Server\n");
-  printf("Start UDP client on  port %d\n", UIP_HTONS(UDP_BP_PORT));
- 
-  uip_ip6addr(&server_ipaddr, 0xaaaa, 0, 0, 0, 0x0212, 0x7402, 0x0002, 0x0202);
+  int v1 = 0x7400, v2 = 0x0000, v3 = 0x0000;
+  int nid = node_id - 2;
+  int rfid_node_id = nid/7;
+  rfid_node_id *= 7;
+  rfid_node_id += 2;
+  v1 += rfid_node_id;
+  v2 += rfid_node_id;
+  v3 += (rfid_node_id * 0x100) + rfid_node_id;
+  uip_ip6addr(&server_ipaddr, 0xaaaa, 0, 0, 0, 0x0212, v1, v2, v3);
   client_conn = udp_new(NULL, UIP_HTONS(UDP_RFID_PORT), NULL); 
   if(client_conn == NULL) {
     printf("No UDP connection available, exiting the process!\n");
@@ -288,18 +285,6 @@ PROCESS_THREAD(er_example_server, ev, data)
       etimer_reset(&periodic);
       ctimer_set(&backoff_timer, SEND_TIME, send_packet, NULL);
     }
-#if PLATFORM_HAS_BUTTON
-    if(ev == sensors_event && data == &button_sensor) {
-      PRINTF("*******BUTTON*******\n");
-
-      /* Call the event_handler for this application-specific event. */
-      res_event.trigger();
-
-      /* Also call the separate response example handler. */
-      res_separate.resume();
-    }
-    
-#endif /* PLATFORM_HAS_BUTTON */
   }                             /* while (1) */
 
   PROCESS_END();

@@ -56,7 +56,7 @@
 
 #define UDP_EXAMPLE_ID  190
 
-#define KEY 12345
+#define KEY 12346
 
 
 struct ll {
@@ -182,7 +182,6 @@ tcpip_handler(void)
 		  non[i] = appdata[i];
 		}
 		non[i] = '\0';	
-		printf("checking nonce %s\n", non);
 		if(isNonceCorrect(non)) {
 		    i = -1;
 		    sdata[0] = 'd';
@@ -198,7 +197,6 @@ tcpip_handler(void)
 		    PRINTF("Request to send data recv from ");
 		    PRINT6ADDR(&UIP_IP_BUF->srcipaddr);
 		    PRINTF("\n");
-		    PRINTF("DATA %s sending reply to port %d\n", sdata, UIP_UDP_BUF->srcport);
 		    if((int)UIP_UDP_BUF->srcport == UIP_HTONS(UDP_TEMP_PORT)) {
 		      uip_ipaddr_copy(&server_conn->ripaddr, &UIP_IP_BUF->srcipaddr);
 		      uip_udp_packet_send(server_conn, sdata, sizeof(sdata));
@@ -384,7 +382,6 @@ server_conn_resp = udp_new(NULL, UIP_HTONS(UDP_RESP_PORT), NULL);
   while(1) {
     PROCESS_YIELD();
     if(ev == tcpip_event) {
-      PRINTF("tcpip_event");
       tcpip_handler();
     } else if (ev == sensors_event && data == &button_sensor) {
       PRINTF("Initiaing global repair\n");

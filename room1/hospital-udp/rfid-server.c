@@ -32,6 +32,7 @@
 #include "contiki-net.h"
 #include "net/ip/uip.h"
 #include "net/rpl/rpl.h"
+#include "node-id.h"
 
 #include "net/netstack.h"
 #include "dev/button-sensor.h"
@@ -130,9 +131,10 @@ save_nonce(char cstr[20]) {
 static void
 tcpip_handler(void)
 {
-  char *appdata;
+  char *appdata, *rfid;
   char non[20], sdata[20], ndata[20];
-  int i, nonce;
+  int i, nonce, j, k;
+  sprintf(rfid, "%d", node_id);
   if(uip_newdata()) {
     appdata = (char *)uip_appdata;
     appdata[uip_datalen()] = '\0';
@@ -190,10 +192,12 @@ tcpip_handler(void)
 		    }
 		    i++;
 		    sdata[i] = '$';
-		    sdata[i+1] = '1';
-		    sdata[i+2] = '2';
-		    sdata[i+3] = '1';
-		    sdata[i+4] = '\0';
+		    j = strlen(rfid);
+		    k = 0;
+		    while(j-- > 0) {
+			sdata[++i] = rfid[k++];
+		    }	
+		    sdata[i+1] = '\0';
 		    PRINTF("Request to send data recv from ");
 		    PRINT6ADDR(&UIP_IP_BUF->srcipaddr);
 		    PRINTF("\n");
