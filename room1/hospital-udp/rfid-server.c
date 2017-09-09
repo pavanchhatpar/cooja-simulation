@@ -131,10 +131,12 @@ save_nonce(char cstr[20]) {
 static void
 tcpip_handler(void)
 {
-  char *appdata, *rfid;
-  char non[20], sdata[20], ndata[20];
+  char *appdata;
+  char non[20], sdata[20], ndata[20], rfid[3];
   int i, nonce, j, k;
+  printf("hello\n");
   sprintf(rfid, "%d", node_id);
+  printf("world\n");
   if(uip_newdata()) {
     appdata = (char *)uip_appdata;
     appdata[uip_datalen()] = '\0';
@@ -185,6 +187,7 @@ tcpip_handler(void)
 		}
 		non[i] = '\0';	
 		if(isNonceCorrect(non)) {
+		    printf("Request to send data received\n");
 		    i = -1;
 		    sdata[0] = 'd';
 		    while(non[++i] != '\0') {
@@ -198,9 +201,7 @@ tcpip_handler(void)
 			sdata[++i] = rfid[k++];
 		    }	
 		    sdata[i+1] = '\0';
-		    PRINTF("Request to send data recv from ");
-		    PRINT6ADDR(&UIP_IP_BUF->srcipaddr);
-		    PRINTF("\n");
+		    printf("%s\n", sdata);
 		    if((int)UIP_UDP_BUF->srcport == UIP_HTONS(UDP_TEMP_PORT)) {
 		      uip_ipaddr_copy(&server_conn->ripaddr, &UIP_IP_BUF->srcipaddr);
 		      uip_udp_packet_send(server_conn, sdata, sizeof(sdata));
@@ -227,7 +228,7 @@ tcpip_handler(void)
 		      uip_create_unspecified(&server_conn_resp->ripaddr);
 		    }
 		} else {
-			PRINTF("NONCE DID NOT MATCH\n");
+			printf("NONCE DID NOT MATCH\n");
 		}	
     }
     
