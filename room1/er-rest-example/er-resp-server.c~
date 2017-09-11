@@ -43,7 +43,7 @@
 #include "contiki-net.h"
 #include "rest-engine.h"
 
-#define UDP_RESP_PORT	8777
+#define UDP_PORT 9000
 #define UDP_RFID_PORT 5678
 #include "net/ip/uip.h"
 #include "net/ipv6/uip-ds6.h"
@@ -63,9 +63,10 @@
 struct ll {
    struct ll *next;
    struct ll *prev;
-   char nonce[20];
+   char nonce[6];
 };
-
+static int cr[50] = {50, 15, 93, 83, 32, 50, 63, 21, 42, 25, 16, 97, 73, 52, 14, 64, 64, 16, 32, 31, 12, 55, 20, 92, 40, 97, 69, 21, 22, 57, 81, 11, 95, 87, 18, 93, 63, 70, 17, 78, 83, 17, 28, 61, 59, 78, 44, 16, 92, 90};
+static int ord[5] = {0, 4, 2, 1, 3};
 /*
  * Resources to be activated need to be imported through the extern keyword.
  * The build system automatically compiles the resources in the corresponding sub-directory.
@@ -120,7 +121,7 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
 static int data_received = 0;
 
 static int
-isNonceCorrect(char cstr[20]) {
+isRespCorrect(char cstr[6]) {
   struct ll *curr = nhead;
   struct ll *tmp;
   int i;
@@ -148,7 +149,7 @@ isNonceCorrect(char cstr[20]) {
 }
 
 static void
-save_cnonce(char cstr[20]) {
+saveResp(char cstr[6]) {
   struct ll *curr;
   int i = -1;
   if(nhead == NULL) {
@@ -187,19 +188,20 @@ send_cnonce(char *cstr)
 static void
 tcpip_handler(void)
 {
-  char *str, cstr[20], non[20];
-  int i=0, j = 0;
+  char *str, cstr[6], non[20], temp[4], tmp[20], resStr[6];
+  int i=0, j = 0, k, ind;
+  long res;
   if(uip_newdata()) {
     str = uip_appdata;
     str[uip_datalen()] = '\0';
     switch(str[0]) {
       case 'd':
-       
-        while(str[++i] != '$') {
-          non[i-1] = str[i];
+        i = -1;
+        while(str[++i] != ',') {
+          cstr[i-1] = str[i];
         }
-        non[i-1] = '\0';
-        if(isNonceCorrect(non)) {
+        cstr[i-1] = '\0';
+        if(isRespCorrect(cstr)) {
     	  while(str[++i] != '\0') {
       	    rfid[j++] = str[i];
           }
@@ -207,22 +209,56 @@ tcpip_handler(void)
           data_received = 1;
 	  printf("RFID tag received: '%s'\n", rfid);
         } else {
-          printf("NONCE DID NOT MATCH %s\n", non);
+          printf("CHALLENGE RESPONSE FAILED\n");
         }
 	break;
       default:
         i = -1;
-        while(str[++i] != '\0') {
-          cstr[i] = (str[i] - '0' + KEY)%10 + '0';
+        res = 1;
+        for (j = 0; j < 4; j++) {
+          ind = 0;
+          k=10; 
+          i++;
+          while(str[i] != ',' && str[i] != '\0') {
+             ind += (int)(str[i] - '0') * k;
+             k /= 10;
+             i++;
+          }
+          res *= cr[ind];
         }
-	cstr[i] = '\0';
-	send_cnonce(cstr);
-	i = -1;
-        while(cstr[++i] != '\0') {
-          cstr[i] = (cstr[i] - '0' + KEY)%10 + '0';
+        strcpy(tmp, "");
+        sprintf(tmp, "%ld", res);
+        strcpy(resStr,"");
+        strncpy(resStr, tmp, 5);
+        strcpy(tmp, "");
+        strcpy(tmp, resStr);
+        for(j = 0; j < 5; j++) {
+          non[j] = tmp[ord[j]];
         }
-	cstr[i] = '\0';
-	save_cnonce(cstr);
+        non[j] = ',';
+        non[j+1] = '\0';
+        res = 1;
+        for(i = 0; i < 4; i++) {
+          ind = abs(rand() % 49);
+          sprintf(temp, "%02d", ind);
+          if (i != 3)
+             strcat(temp, ",");
+          strcat(non, temp);
+          res *= cr[ind]; 
+        }
+        
+        strcpy(tmp, "");
+        strcpy(resStr, "");
+        sprintf(tmp, "%ld", res);
+        strncpy(resStr, tmp, 5);
+        resStr[5]='\0';
+        strcpy(tmp, resStr);
+        for(i = 0; i < 5; i++) {
+          resStr[i] = tmp[ord[i]];
+        }
+        saveResp(resStr);
+        printf("Reply for check %s\n", non);
+        send_cnonce(non);
     }
   }
 }
@@ -267,7 +303,7 @@ PROCESS_THREAD(er_example_server, ev, data)
     printf("No UDP connection available, exiting the process!\n");
     PROCESS_EXIT();
   }
-  udp_bind(client_conn, UIP_HTONS(UDP_RESP_PORT)); 
+  udp_bind(client_conn, UIP_HTONS(UDP_PORT)); 
   
   // Initialize the REST engine. 
   rest_init_engine();
@@ -289,4 +325,5 @@ PROCESS_THREAD(er_example_server, ev, data)
 
   PROCESS_END();
 }
+
 

@@ -52,17 +52,15 @@
 
 #define UDP_EXAMPLE_ID  190
 
-#define KEY 12346
-
+#include "../challenge_response.h"
 
 struct ll {
    struct ll *next;
    struct ll *prev;
-   char nonce[20];
+   char nonce[6];
 };
 
 struct ll *nhead = NULL;
-//srand(time(NULL));
 
 static struct uip_udp_conn *server_conn;
 
@@ -70,7 +68,7 @@ PROCESS(udp_server_process, "UDP server process");
 AUTOSTART_PROCESSES(&udp_server_process);
 
 static int
-isNonceCorrect(char cstr[20]) {
+isRespCorrect(char cstr[6]) {
   struct ll *curr = nhead;
   struct ll *tmp;
   int i;
@@ -98,7 +96,7 @@ isNonceCorrect(char cstr[20]) {
 }
 
 static void
-save_nonce(char cstr[20]) {
+saveResp(char cstr[6]) {
   struct ll *curr;
   int i = -1;
   if(nhead == NULL) {
@@ -127,45 +125,69 @@ static void
 tcpip_handler(void)
 {
   char *appdata;
-  char non[20], sdata[20], ndata[20], rfid[3];
-  int i, nonce, j, k;
+  char non[6], sdata[20], ndata[20], rfid[3], temp[3], tmp[15], resStr[6];
+  int i, ind, j, k;
+  long res=1;
   sprintf(rfid, "%d", node_id);
   if(uip_newdata()) {
     appdata = (char *)uip_appdata;
     appdata[uip_datalen()] = '\0';
     switch(appdata[0]) {
     	case 'n':
-	    nonce = rand() % 7543;
-	    if (nonce < 0) {
-		nonce *= -1;
+            strcpy(ndata, "");
+	    for(i = 0; i < 4; i++) {
+	       ind = abs(rand() % 49);
+               sprintf(temp, "%02d", ind);
+               if (i != 3)
+                  strcat(temp, ",");
+               strcat(ndata, temp);
+               res *= cr[ind]; 
 	    }
-	    sprintf(ndata, "%d", nonce);
-	    PRINTF("NONCE sending %s reply to port %d\n", ndata, UIP_UDP_BUF->srcport);
+	    PRINTF("Sending reply %s \n", ndata);
             uip_ipaddr_copy(&server_conn->ripaddr, &UIP_IP_BUF->srcipaddr);
             uip_udp_packet_send(server_conn, ndata, sizeof(ndata));
             uip_create_unspecified(&server_conn->ripaddr);
-	    i = -1;
-	    while(ndata[++i] != '\0') {
-		ndata[i] = (ndata[i] - '0' + KEY) % 10 + '0';
-	    }
-	    printf("saving nonce %s\n", ndata);
-	    save_nonce(ndata);
-	    break;
+            strcpy(resStr,"");
+            strcpy(tmp,"");
+	    sprintf(tmp, "%ld", res);
+            strncpy(resStr, tmp, 5);
+            resStr[5] = '\0';
+            strcpy(tmp, resStr);
+            for(i = 0; i < 5; i++) {
+              resStr[i] = tmp[ord[i]];
+            }
+            saveResp(resStr);
+            break;
 	default:
 		i = -1;
-		while(appdata[++i] != '\0') {
+		while(appdata[++i] != ',') {
 		  non[i] = appdata[i];
 		}
-		non[i] = '\0';	
-		if(isNonceCorrect(non)) {
-		    printf("Request to send data received\n");
-		    i = -1;
+		non[i] = '\0';
+                if(isRespCorrect(non)) {
+		    printf("Request to send data ");
 		    sdata[0] = 'd';
-		    while(non[++i] != '\0') {
-			sdata[i+1] = (non[i] - '0' + KEY)%10 + '0';
-		    }
-		    i++;
-		    sdata[i] = '$';
+                    res = 1;
+                    for (j = 0; j < 4; j++) {
+                       ind = 0;
+                       k=10;  
+                       while(appdata[++i] != ',' && appdata[i] != '\0') {
+                          ind += (appdata[i] - '0') * k;
+                          k /= 10;
+                       }
+                       res *= cr[ind];
+                    }
+                    strcpy(tmp, "");
+                    strcpy(resStr, "");
+                    sprintf(tmp, "%ld", res);
+		    strncpy(resStr, tmp, 5);
+                    resStr[5] = '\0';
+		    strcpy(tmp, resStr);
+		    for(j = 0; j < 5; j++) {
+		      sdata[j+1] = tmp[ord[j]];
+		    }   
+		    sdata[j+1] = ',';
+                    i = j+1;
 		    j = strlen(rfid);
 		    k = 0;
 		    while(j-- > 0) {
@@ -177,7 +199,7 @@ tcpip_handler(void)
 		    uip_udp_packet_send(server_conn, sdata, sizeof(sdata));
 		    uip_create_unspecified(&server_conn->ripaddr);
 		} else {
-			printf("NONCE DID NOT MATCH\n");
+			printf("CHALLENGE RESPONSE FAILED\n");
 		}	
     }
     
@@ -208,7 +230,6 @@ print_local_addresses(void)
 PROCESS_THREAD(udp_server_process, ev, data)
 {
   uip_ipaddr_t ipaddr;
-  //struct uip_ds6_addr *root_if;
 
   PROCESS_BEGIN();
 
@@ -230,29 +251,6 @@ PROCESS_THREAD(udp_server_process, ev, data)
   uip_ip6addr(&ipaddr, 0xaaaa, 0, 0, 0, 0, 0, 0, 0);
   uip_ds6_set_addr_iid(&ipaddr, &uip_lladdr);
   uip_ds6_addr_add(&ipaddr, 0, ADDR_AUTOCONF);
-//#if 0
-/* Mode 1 - 64 bits inline */
-  // uip_ip6addr(&ipaddr, 0xaaaa, 0, 0, 0, 0, 0, 0, 1);
-//#elif 1
-/* Mode 2 - 16 bits inline */
-//  uip_ip6addr(&ipaddr, 0xaaaa, 0, 0, 0, 0, 0x00ff, 0xfe00, 1);
-//#else
-/* Mode 3 - derived from link local (MAC) address */
-  //uip_ip6addr(&ipaddr, 0xaaaa, 0, 0, 0, 0, 0, 0, 0);
-  //uip_ds6_set_addr_iid(&ipaddr, &uip_lladdr);
-//#endif
-
-  /*uip_ds6_addr_add(&ipaddr, 0, ADDR_MANUAL);
-  root_if = uip_ds6_addr_lookup(&ipaddr);
-  if(root_if != NULL) {
-    rpl_dag_t *dag;
-    dag = rpl_set_root(RPL_DEFAULT_INSTANCE,(uip_ip6addr_t *)&ipaddr);
-    uip_ip6addr(&ipaddr, 0xaaaa, 0, 0, 0, 0, 0, 0, 0);
-    rpl_set_prefix(dag, &ipaddr, 64);
-    PRINTF("created a new RPL dag\n");
-  } else {
-    PRINTF("failed to create a new RPL DAG\n");
-  }*/
 #endif /* UIP_CONF_ROUTER */
   
   print_local_addresses();

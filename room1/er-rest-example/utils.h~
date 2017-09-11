@@ -58,7 +58,6 @@
 #endif
 #define SEND_INTERVAL		(PERIOD * CLOCK_SECOND)
 #define SEND_TIME		(random_rand() % (SEND_INTERVAL))
-#define KEY 12346
 
 struct ll {
    struct ll *next;
@@ -67,56 +66,11 @@ struct ll {
 };
 static int cr[50] = {50, 15, 93, 83, 32, 50, 63, 21, 42, 25, 16, 97, 73, 52, 14, 64, 64, 16, 32, 31, 12, 55, 20, 92, 40, 97, 69, 21, 22, 57, 81, 11, 95, 87, 18, 93, 63, 70, 17, 78, 83, 17, 28, 61, 59, 78, 44, 16, 92, 90};
 static int ord[5] = {0, 4, 2, 1, 3};
-/*
- * Resources to be activated need to be imported through the extern keyword.
- * The build system automatically compiles the resources in the corresponding sub-directory.
- */
-extern resource_t
-  res_chunks,
-  res_separate,
-  res_event;
 
-static struct uip_udp_conn *client_conn;
-static uip_ipaddr_t server_ipaddr;
 
 struct ll *nhead = NULL;
 
 static char rfid[10];
-static void res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
-
-RESOURCE(res_temp,
-         "title=\"Temperature sensor(JSON, Plain TEXT, XML)\";rt=\"Reporter\"",
-         res_get_handler,
-         NULL,
-         NULL,
-         NULL);
-
-static void
-res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset) {
-
-  unsigned int accept = -1;
-  REST.get_header_accept(request, &accept);
-  if(accept == -1 || accept == REST.type.TEXT_PLAIN) {
-    REST.set_header_content_type(response, REST.type.TEXT_PLAIN);
-    snprintf((char *)buffer, REST_MAX_CHUNK_SIZE, "37;%s",rfid);
-
-    REST.set_response_payload(response, (uint8_t *)buffer, strlen((char *)buffer));
-  } else if(accept == REST.type.APPLICATION_XML) {
-    REST.set_header_content_type(response, REST.type.APPLICATION_XML);
-    snprintf((char *)buffer, REST_MAX_CHUNK_SIZE, "<temperature>37</temperature><rfid>%s</rfid>", rfid);
-
-    REST.set_response_payload(response, buffer, strlen((char *)buffer));
-  } else if(accept == REST.type.APPLICATION_JSON) {
-    REST.set_header_content_type(response, REST.type.APPLICATION_JSON);
-    snprintf((char *)buffer, REST_MAX_CHUNK_SIZE, "{'temperature': 37, 'rfid': '%s'}", rfid);
-
-    REST.set_response_payload(response, buffer, strlen((char *)buffer));
-  } else {
-    REST.set_response_status(response, REST.status.NOT_ACCEPTABLE);
-    const char *msg = "Supporting content-types text/plain, application/xml, and application/json";
-    REST.set_response_payload(response, msg, strlen(msg));
-  }
-}
 
 static int data_received = 0;
 
@@ -174,15 +128,8 @@ saveResp(char cstr[6]) {
 }
 
 /*---------------------------------------------------------------------------*/
-static void
-send_cnonce(char *cstr)
-{
-  //static int seq_id;
-  char buf[MAX_PAYLOAD_LEN];
-  sprintf(buf, "%s", cstr);
-  uip_udp_packet_sendto(client_conn, buf, strlen(buf),
-                        &server_ipaddr, UIP_HTONS(UDP_RFID_PORT));
-}
+static void send_cnonce(char *);
+
 
 /*---------------------------------------------------------------------------*/
 static void
@@ -230,6 +177,7 @@ tcpip_handler(void)
         sprintf(tmp, "%ld", res);
         strcpy(resStr,"");
         strncpy(resStr, tmp, 5);
+        resStr[5] = '\0';
         strcpy(tmp, "");
         strcpy(tmp, resStr);
         for(j = 0; j < 5; j++) {
@@ -246,7 +194,6 @@ tcpip_handler(void)
           strcat(non, temp);
           res *= cr[ind]; 
         }
-        
         strcpy(tmp, "");
         strcpy(resStr, "");
         sprintf(tmp, "%ld", res);
@@ -262,68 +209,4 @@ tcpip_handler(void)
     }
   }
 }
-/*---------------------------------------------------------------------------*/
-static void
-send_packet(void *ptr)
-{
-  //static int seq_id;
-  char buf[MAX_PAYLOAD_LEN];
-
-  printf("Sending request for nonce\n");
-  sprintf(buf, "nSend nonce");
-  uip_udp_packet_sendto(client_conn, buf, strlen(buf),
-                        &server_ipaddr, UIP_HTONS(UDP_RFID_PORT));
-}
-/*---------------------------------------------------------------------------*/
-
-
-
-PROCESS(er_example_server, "Erbium Example Server");
-AUTOSTART_PROCESSES(&er_example_server);
-
-PROCESS_THREAD(er_example_server, ev, data)
-{
-  static struct etimer periodic;
-  static struct ctimer backoff_timer;
-  PROCESS_BEGIN();
-
-  PROCESS_PAUSE();
-
-  int v1 = 0x7400, v2 = 0x0000, v3 = 0x0000;
-  int nid = node_id - 2;
-  int rfid_node_id = nid/7;
-  rfid_node_id *= 7;
-  rfid_node_id += 2;
-  v1 += rfid_node_id;
-  v2 += rfid_node_id;
-  v3 += (rfid_node_id * 0x100) + rfid_node_id;
-  uip_ip6addr(&server_ipaddr, 0xaaaa, 0, 0, 0, 0x0212, v1, v2, v3);
-  client_conn = udp_new(NULL, UIP_HTONS(UDP_RFID_PORT), NULL); 
-  if(client_conn == NULL) {
-    printf("No UDP connection available, exiting the process!\n");
-    PROCESS_EXIT();
-  }
-  udp_bind(client_conn, UIP_HTONS(UDP_PORT)); 
-  
-  // Initialize the REST engine. 
-  rest_init_engine();
-
-  rest_activate_resource(&res_temp, "sensor/temp");
-
-  etimer_set(&periodic, SEND_INTERVAL);
-  /* Define application-specific events here. */
-  while(1) {
-    PROCESS_WAIT_EVENT();
-    if(ev == tcpip_event) {
-      tcpip_handler();
-    }
-    if(etimer_expired(&periodic) && !data_received) {
-      etimer_reset(&periodic);
-      ctimer_set(&backoff_timer, SEND_TIME, send_packet, NULL);
-    }
-  }                             /* while (1) */
-
-  PROCESS_END();
-}
-
 
