@@ -43,7 +43,7 @@
 #include "contiki-net.h"
 #include "rest-engine.h"
 
-#define UDP_TEMP_PORT	8765
+#define UDP_PORT	9000
 #define UDP_RFID_PORT 5678
 #include "net/ip/uip.h"
 #include "net/ipv6/uip-ds6.h"
@@ -267,7 +267,7 @@ PROCESS_THREAD(er_example_server, ev, data)
     printf("No UDP connection available, exiting the process!\n");
     PROCESS_EXIT();
   }
-  udp_bind(client_conn, UIP_HTONS(UDP_TEMP_PORT)); 
+  udp_bind(client_conn, UIP_HTONS(UDP_PORT)); 
   
   // Initialize the REST engine. 
   rest_init_engine();

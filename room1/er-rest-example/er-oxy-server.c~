@@ -257,8 +257,7 @@ PROCESS_THREAD(er_example_server, ev, data)
   int nid = node_id - 2;
   int rfid_node_id = nid/7;
   rfid_node_id *= 7;
-  if(rfid_node_id == 0) rfid_node_id++;
-  rfid_node_id++;
+  rfid_node_id += 2;
   v1 += rfid_node_id;
   v2 += rfid_node_id;
   v3 += (rfid_node_id * 0x100) + rfid_node_id;
