@@ -151,7 +151,7 @@ tcpip_handler(void)
         cstr[i-1] = '\0';
         if(isRespCorrect(cstr)) {
     	  while(str[++i] != '\0') {
-      	    rfid[j++] = str[i];
+	    rfid[j++] = decrypt(str[i]);
           }
     	  rfid[i] = '\0';
           data_received = 1;

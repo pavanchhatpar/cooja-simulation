@@ -191,7 +191,7 @@ tcpip_handler(void)
 		    j = strlen(rfid);
 		    k = 0;
 		    while(j-- > 0) {
-			sdata[++i] = rfid[k++];
+			sdata[++i] = encrypt(rfid[k++]);
 		    }	
 		    sdata[i+1] = '\0';
 		    printf("%s\n", sdata);
