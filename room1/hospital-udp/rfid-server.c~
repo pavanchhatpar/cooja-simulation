@@ -51,7 +51,7 @@
 #define UDP_CLIENT_PORT     9000
 
 #define UDP_EXAMPLE_ID  190
-
+#define MAX_PAYLOAD_LEN		50
 #include "../challenge_response.h"
 
 struct ll {
@@ -125,8 +125,8 @@ static void
 tcpip_handler(void)
 {
   char *appdata;
-  char non[6], sdata[20], ndata[20], rfid[3], temp[3], tmp[15], resStr[6];
-  int i, ind, j, k;
+  char non[6], sdata[50], ndata[50], rfid[3], temp[4], tmp[50], resStr[6], dat[50], hash[50];
+  int i, ind, j, k, x=0, y=0;
   long res=1;
   sprintf(rfid, "%d", node_id);
   if(uip_newdata()) {
@@ -143,6 +143,10 @@ tcpip_handler(void)
                strcat(ndata, temp);
                res *= cr[ind]; 
 	    }
+            strcpy(tmp,"");
+	    sprintf(tmp,"|%ld", gen_hash(ndata));
+	    strcat(ndata, tmp);
+            strcpy(tmp, "");
 	    PRINTF("Sending reply %s \n", ndata);
             uip_ipaddr_copy(&server_conn->ripaddr, &UIP_IP_BUF->srcipaddr);
             uip_udp_packet_send(server_conn, ndata, sizeof(ndata));
@@ -159,48 +163,64 @@ tcpip_handler(void)
             saveResp(resStr);
             break;
 	default:
-		i = -1;
-		while(appdata[++i] != ',') {
-		  non[i] = appdata[i];
+		for(x=0; appdata[x] != '|'; x++){
+		    dat[x] = appdata[x];
 		}
-		non[i] = '\0';
-                if(isRespCorrect(non)) {
-		    printf("Request to send data ");
-		    sdata[0] = 'd';
-                    res = 1;
-                    for (j = 0; j < 4; j++) {
-                       ind = 0;
-                       k=10;  
-                       while(appdata[++i] != ',' && appdata[i] != '\0') {
-                          ind += (appdata[i] - '0') * k;
-                          k /= 10;
-                       }
-                       res *= cr[ind];
-                    }
-                    strcpy(tmp, "");
-                    strcpy(resStr, "");
-                    sprintf(tmp, "%ld", res);
-		    strncpy(resStr, tmp, 5);
-                    resStr[5] = '\0';
-		    strcpy(tmp, resStr);
-		    for(j = 0; j < 5; j++) {
-		      sdata[j+1] = tmp[ord[j]];
-		    }   
-		    sdata[j+1] = ',';
-                    i = j+1;
-		    j = strlen(rfid);
-		    k = 0;
-		    while(j-- > 0) {
-			sdata[++i] = rfid[k++];
-		    }	
-		    sdata[i+1] = '\0';
-		    printf("%s\n", sdata);
-		    uip_ipaddr_copy(&server_conn->ripaddr, &UIP_IP_BUF->srcipaddr);
-		    uip_udp_packet_send(server_conn, sdata, sizeof(sdata));
-		    uip_create_unspecified(&server_conn->ripaddr);
+		x++;
+		for(; appdata[x] != '\0'; x++, y++){
+		    hash[y] = appdata[x];
+		}
+		hash[y] = '\0';
+                if(check_hash(gen_hash(dat), hash)) {
+			i = -1;
+			while(appdata[++i] != ',') {
+			  non[i] = appdata[i];
+			}
+			non[i] = '\0';
+		        if(isRespCorrect(non)) {
+			    printf("Request to send data ");
+			    sdata[0] = 'd';
+		            res = 1;
+		            for (j = 0; j < 4; j++) {
+		               ind = 0;
+		               k=10;  
+		               while(appdata[++i] != ',' && appdata[i] != '\0') {
+		                  ind += (appdata[i] - '0') * k;
+		                  k /= 10;
+		               }
+		               res *= cr[ind];
+		            }
+		            strcpy(tmp, "");
+		            strcpy(resStr, "");
+		            sprintf(tmp, "%ld", res);
+			    strncpy(resStr, tmp, 5);
+		            resStr[5] = '\0';
+			    strcpy(tmp, resStr);
+			    for(j = 0; j < 5; j++) {
+			      sdata[j+1] = tmp[ord[j]];
+			    }   
+			    sdata[j+1] = ',';
+		            i = j+1;
+			    j = strlen(rfid);
+			    k = 0;
+			    while(j-- > 0) {
+				sdata[++i] = encrypt(rfid[k++]);
+			    }	
+			    sdata[i+1] = '\0';
+			    strcpy(tmp, "");
+			    sprintf(tmp, "|%ld", gen_hash(sdata));
+			    strcat(sdata, tmp);
+			    strcpy(tmp, "");
+			    printf("%s\n", sdata);
+			    uip_ipaddr_copy(&server_conn->ripaddr, &UIP_IP_BUF->srcipaddr);
+			    uip_udp_packet_send(server_conn, sdata, sizeof(sdata));
+			    uip_create_unspecified(&server_conn->ripaddr);
+			} else {
+				printf("CHALLENGE RESPONSE FAILED\n");
+			}
 		} else {
-			printf("CHALLENGE RESPONSE FAILED\n");
-		}	
+			printf("Integrity check failed!\n");		
+		}		
     }
     
   }

@@ -14,7 +14,7 @@ static uip_ipaddr_t server_ipaddr;
 static void res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 
 RESOURCE(res_glucose,
-         "title=\"Glucose sensor(JSON, Plain TEXT, XML)\";rt=\"Reporter\"",
+         "title=\"Glucose sensor(JSON, Plain TEXT)\";rt=\"Reporter\"",
          res_get_handler,
          NULL,
          NULL,
@@ -30,11 +30,6 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
     snprintf((char *)buffer, REST_MAX_CHUNK_SIZE, "37;%s",rfid);
 
     REST.set_response_payload(response, (uint8_t *)buffer, strlen((char *)buffer));
-  } else if(accept == REST.type.APPLICATION_XML) {
-    REST.set_header_content_type(response, REST.type.APPLICATION_XML);
-    snprintf((char *)buffer, REST_MAX_CHUNK_SIZE, "<glucose>75</glucose><rfid>%s</rfid>", rfid);
-
-    REST.set_response_payload(response, buffer, strlen((char *)buffer));
   } else if(accept == REST.type.APPLICATION_JSON) {
     REST.set_header_content_type(response, REST.type.APPLICATION_JSON);
     snprintf((char *)buffer, REST_MAX_CHUNK_SIZE, "{'glucose': 75, 'rfid': '%s'}", rfid);
@@ -42,7 +37,7 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
     REST.set_response_payload(response, buffer, strlen((char *)buffer));
   } else {
     REST.set_response_status(response, REST.status.NOT_ACCEPTABLE);
-    const char *msg = "Supporting content-types text/plain, application/xml, and application/json";
+    const char *msg = "Supporting text and json";
     REST.set_response_payload(response, msg, strlen(msg));
   }
 }
@@ -95,7 +90,6 @@ PROCESS_THREAD(er_example_server, ev, data)
   uip_ip6addr(&server_ipaddr, 0xaaaa, 0, 0, 0, 0x0212, v1, v2, v3);
   client_conn = udp_new(NULL, UIP_HTONS(UDP_RFID_PORT), NULL); 
   if(client_conn == NULL) {
-    printf("No UDP connection available, exiting the process!\n");
     PROCESS_EXIT();
   }
   udp_bind(client_conn, UIP_HTONS(UDP_PORT)); 

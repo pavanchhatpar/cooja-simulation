@@ -136,78 +136,95 @@ static void send_cnonce(char *);
 static void
 tcpip_handler(void)
 {
-  char *str, cstr[6], non[20], temp[4], tmp[20], resStr[6];
+  char *str, cstr[6], non[35], temp[4], tmp[20], resStr[6], hash[15], dat[20];
   int i=0, j = 0, k, ind;
   long res;
   if(uip_newdata()) {
     str = uip_appdata;
     str[uip_datalen()] = '\0';
-    switch(str[0]) {
-      case 'd':
-        i = -1;
-        while(str[++i] != ',') {
-          cstr[i-1] = str[i];
-        }
-        cstr[i-1] = '\0';
-        if(isRespCorrect(cstr)) {
-    	  while(str[++i] != '\0') {
-	    printf("Decrypting\n");
-      	    rfid[j++] = decrypt(str[i]);
-          }
-    	  rfid[i] = '\0';
-          data_received = 1;
-	  printf("RFID tag received: '%s'\n", rfid);
-        } else {
-          printf("CHALLENGE RESPONSE FAILED\n");
-        }
-	break;
-      default:
-        i = -1;
-        res = 1;
-        for (j = 0; j < 4; j++) {
-          ind = 0;
-          k=10; 
-          i++;
-          while(str[i] != ',' && str[i] != '\0') {
-             ind += (int)(str[i] - '0') * k;
-             k /= 10;
-             i++;
-          }
-          res *= cr[ind];
-        }
-        strcpy(tmp, "");
-        sprintf(tmp, "%ld", res);
-        strcpy(resStr,"");
-        strncpy(resStr, tmp, 5);
-        resStr[5] = '\0';
-        strcpy(tmp, "");
-        strcpy(tmp, resStr);
-        for(j = 0; j < 5; j++) {
-          non[j] = tmp[ord[j]];
-        }
-        non[j] = ',';
-        non[j+1] = '\0';
-        res = 1;
-        for(i = 0; i < 4; i++) {
-          ind = abs(rand() % 49);
-          sprintf(temp, "%02d", ind);
-          if (i != 3)
-             strcat(temp, ",");
-          strcat(non, temp);
-          res *= cr[ind]; 
-        }
-        strcpy(tmp, "");
-        strcpy(resStr, "");
-        sprintf(tmp, "%ld", res);
-        strncpy(resStr, tmp, 5);
-        resStr[5]='\0';
-        strcpy(tmp, resStr);
-        for(i = 0; i < 5; i++) {
-          resStr[i] = tmp[ord[i]];
-        }
-        saveResp(resStr);
-        printf("Reply for check %s\n", non);
-        send_cnonce(non);
+    for(; str[i] != '|'; i++){
+    	dat[i] = str[i];
+    }
+    i++;
+    for(; str[i] != '\0'; i++, j++){
+    	hash[j] = str[i];
+    }
+    hash[j] = '\0';
+    i = j = 0;
+    //printf("%s %s\n", dat, hash);
+    if(check_hash(gen_hash(dat), hash)) {
+	    switch(str[0]) {
+	      case 'd':
+		i = -1;
+		while(str[++i] != ',') {
+		  cstr[i-1] = str[i];
+		}
+		cstr[i-1] = '\0';
+		if(isRespCorrect(cstr)) {
+	    	  while(str[++i] != '|') {
+		    rfid[j++] = decrypt(str[i]);
+		  }
+	    	  rfid[i] = '\0';
+		  data_received = 1;
+		  printf("RFID TAG received: '%s'\n", rfid);
+		} else {
+		  printf("CHALLENGE RESPONSE FAILED\n");
+		}
+		break;
+	      default:
+		i = -1;
+		res = 1;
+		for (j = 0; j < 4; j++) {
+		  ind = 0;
+		  k=10; 
+		  i++;
+		  while(str[i] != ',' && str[i] != '|') {
+		     ind += (int)(str[i] - '0') * k;
+		     k /= 10;
+		     i++;
+		  }
+		  res *= cr[ind];
+		}
+		strcpy(tmp, "");
+		sprintf(tmp, "%ld", res);
+		strcpy(resStr,"");
+		strncpy(resStr, tmp, 5);
+		resStr[5] = '\0';
+		strcpy(tmp, "");
+		strcpy(tmp, resStr);
+		for(j = 0; j < 5; j++) {
+		  non[j] = tmp[ord[j]];
+		}
+		non[j] = ',';
+		non[j+1] = '\0';
+		res = 1;
+		for(i = 0; i < 4; i++) {
+		  ind = abs(rand() % 49);
+		  sprintf(temp, "%02d", ind);
+		  if (i != 3)
+		     strcat(temp, ",");
+		  strcat(non, temp);
+		  res *= cr[ind]; 
+		}
+		strcpy(tmp, "");
+		strcpy(resStr, "");
+		sprintf(tmp, "%ld", res);
+		strncpy(resStr, tmp, 5);
+		resStr[5]='\0';
+		strcpy(tmp, resStr);
+		for(i = 0; i < 5; i++) {
+		  resStr[i] = tmp[ord[i]];
+		}
+		saveResp(resStr);
+		strcpy(tmp, "");
+		sprintf(tmp, "|%ld", gen_hash(non));
+		strcat(non, tmp);
+                strcpy(tmp,"");
+		printf("Reply for check %s\n", non);
+		send_cnonce(non);
+	    }
+    } else {
+    	printf("Integrity check failed!\n");
     }
   }
 }
